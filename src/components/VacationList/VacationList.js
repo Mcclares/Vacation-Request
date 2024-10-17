@@ -1,12 +1,11 @@
 ﻿import {Table, TableHead, TableCell, TableBody} from "@mui/material";
 import {TableRow} from "@mui/material";
 
-import React from "react";
+import React, {useState} from "react";
 
 
 export default function VacationList() {
     const[requests, setRequests] = useState([])
-    
     
     return(
         <Table>
