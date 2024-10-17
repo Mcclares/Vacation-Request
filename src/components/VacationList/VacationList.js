@@ -20,7 +20,7 @@ export default function VacationList() {
             </TableHead>
             <TableBody>
                 {requests.map((request) => (
-                    <TableRow>
+                    <TableRow key={request.id}>
                         <TableCell>{request.startDate}</TableCell>
                         <TableCell>{request.vacDays}</TableCell>
                         <TableCell>{request.endDate}</TableCell>
