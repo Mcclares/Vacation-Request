@@ -1,8 +1,10 @@
-﻿
+﻿import VacationList from "../components/VacationList/VacationList";
+
+
 export default function IndexPage() {
     return (
         <div>
-            <h1> Hello IndexPage!</h1>
+            <VacationList/>
         </div>
     )
 }
