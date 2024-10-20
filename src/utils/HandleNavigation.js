@@ -4,5 +4,5 @@ export function HandleNavigation() {
    const goToPage = (path) => {
       navigate(path)
    };
-   return {navigate}
+   return goToPage;
 }

@@ -5,7 +5,7 @@ import {HandleNavigation} from "../../utils/HandleNavigation";
 
 
 export default function IndexPage() {
-    const { goToPage } = HandleNavigation();
+    const goToPage = HandleNavigation();
     return (
         <div className="vacations-list">
             <VacationList/>
