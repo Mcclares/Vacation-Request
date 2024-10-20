@@ -1,20 +1,21 @@
 ﻿import {Table, TableHead, TableCell, TableBody} from "@mui/material";
 import {TableRow} from "@mui/material";
-
 import React, {useState} from "react";
-
-
+import {tableHeader} from "./VacationListStyles";
 export default function VacationList() {
     const[requests, setRequests] = useState([])
+    const tableHeaderClass = "table-header";
+    const tableClass = "table";
+    
     
     return(
         <Table>
-            <TableHead>
+            <TableHead >
                 <TableRow>
-                    <TableCell>Start date</TableCell>
-                    <TableCell>Vacation days</TableCell>
-                    <TableCell>End date</TableCell>
-                    <TableCell>Comment</TableCell>
+                    <TableCell style={tableHeader}>Start date</TableCell>
+                    <TableCell style={tableHeader}>Vacation days</TableCell>
+                    <TableCell style={tableHeader}>End date</TableCell>
+                    <TableCell style={tableHeader}>Comment</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
