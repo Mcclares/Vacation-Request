@@ -4,9 +4,6 @@ import React, {useState} from "react";
 import {tableHeader} from "./VacationListStyles";
 export default function VacationList() {
     const[requests, setRequests] = useState([])
-    const tableHeaderClass = "table-header";
-    const tableClass = "table";
-    
     
     return(
         <Table>
