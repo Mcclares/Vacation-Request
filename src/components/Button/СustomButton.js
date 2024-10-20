@@ -1,6 +1,11 @@
 ﻿import {Button as MuiButton} from "@mui/material";
-export default function CustomButton({name,clickEvent,variantStyle,customStyle}) {
+export default function CustomButton({name,clickEvent,variant,customStyle}) {
     return(
-        <MuiButton style={customStyle || ""}  variant={variantStyle} onClick={clickEvent}>{name}</MuiButton>
+        <MuiButton 
+            style={customStyle?.props || {}}  
+            variant={variant} 
+            onClick={clickEvent}>
+            {name}
+        </MuiButton>
     )
 }
