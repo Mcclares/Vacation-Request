@@ -20,7 +20,8 @@ export default function RequestForm() {
         setEndDate(newDate)
     }
     const handleVacationDaysChange = (event) => {
-        const days = parseInt(event.target.value, 10 ) || 0 ;
+        const days = parseInt(event.target.value, 10 ) || 1 ;
+        console.log('Setting vacation days to:', days);
         setVacationDays(days);
     }
     
