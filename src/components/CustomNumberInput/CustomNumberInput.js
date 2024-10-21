@@ -36,7 +36,13 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
 export default function CustomNumberInput( { label, newValue= null, onChange}) {
     const inputId = "custom-number-input";
     const [value, setValue] = useState(newValue);
+    
+    useEffect(() => {
+        setValue(newValue);
+    },[newValue])
+    
     const handleChange = (event, val) => {
+       
         setValue(val);
         if (onChange) {
             onChange(val);
