@@ -1,7 +1,7 @@
 ﻿import RequestForm from "../components/RequestForm/RequestForm";
 export default function FormPage() {
     return (
-        <div>
+        <div className="vacation-request-form">
             <RequestForm/>
         </div>
     )
