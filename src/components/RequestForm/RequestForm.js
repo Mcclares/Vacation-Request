@@ -12,14 +12,8 @@ export default function RequestForm() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     // const [vacationDays, setVacationDays] = useVacationDays(startDate,endDate)
-    const [vacationDays, setVacationDays] = useState(0);
-
-    useEffect(() => {
-        if(startDate && endDate) {
-            const daysDiff = endDate.diff(startDate, 'day');
-            setVacationDays(daysDiff);
-        }
-    }, [startDate, endDate]);
+    const [vacationDays, setVacationDays] = useVacationDays(startDate,endDate);
+    
     const handleStartDateChange = (newDate) => {
         setStartDate(newDate);
     }
@@ -45,6 +39,7 @@ export default function RequestForm() {
                     sx={FieldStyle}  
                     label="Vacation days"
                     onChange={handleVacationDaysChange}
+                    value={vacationDays}
                     required/>
                 <DatePicker 
                     sx={FieldStyle}  
