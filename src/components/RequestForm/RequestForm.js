@@ -12,9 +12,9 @@ export default function RequestForm() {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <FormControl >
-                <DatePicker sx={FieldStyle} label="Start date" minDate={today}/>
-                <CustomNumberInput sx={FieldStyle}  label="Vacation days" />
-                <DatePicker sx={FieldStyle}  label="End date" minDate={today} ></DatePicker>
+                <DatePicker sx={FieldStyle} label="Start date" minDate={today} required/>
+                <CustomNumberInput sx={FieldStyle}  label="Vacation days" required/>
+                <DatePicker sx={FieldStyle}  label="End date" minDate={today} required></DatePicker>
                 <TextField 
                     multiline
                     rows={5} 
