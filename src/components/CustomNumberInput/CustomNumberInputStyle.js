@@ -1,14 +1,14 @@
 ﻿import { styled } from "@mui/system";
 
 const blue = {
-    100: '#daecff',
-    200: '#b6daff',
-    300: '#66b2ff',
-    400: '#3399ff',
-    500: '#007fff',
-    600: '#0072e5',
-    700: '#0059B2',
-    800: '#004c99',
+    100: '#D6CFC4',
+    200: '#D8C3A5',
+    300: '#C2B59D',
+    400: '#F5F5DC',
+    500: '#EDC9AF',
+    600: '#DEB887',
+    700: '#F0E68C',
+    800: '#D2B48C',
 };
 
 const grey = {
@@ -111,6 +111,7 @@ export const StyledButton = styled('button')(
 
 export const LabelStyle = {
     fontSize: "16px",
-    marginTop: "20px"
+    marginTop: "20px",
+    marginBottom: "10px"
    
 }
