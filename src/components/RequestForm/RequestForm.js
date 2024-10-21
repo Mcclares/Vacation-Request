@@ -1,12 +1,12 @@
 ﻿
-import {FormControl, TextField,} from "@mui/material";
-
+import {FormControl, TextField} from "@mui/material";
+import {DatePicker} from "@mui/x-date-pickers";
 export default function RequestForm() {
     return (
         <FormControl>
-            <TextField type="date" label="Start date"/>
+            <DatePicker label="Start date"/>
             <TextField type="text" label="Vacation days"></TextField>
-            <TextField type="date" label="End Date"></TextField>
+            <DatePicker label="End date" ></DatePicker>
             <TextField type="text"></TextField>
         </FormControl>
     )
