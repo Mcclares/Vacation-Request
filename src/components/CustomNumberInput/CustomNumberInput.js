@@ -1,10 +1,12 @@
-﻿import * as React from 'react';
+﻿import {useState , useEffect} from "react";
+import React from "react";
 import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_NumberInput';
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import {StyledButton,StyledInput,StyledInputRoot, LabelStyle} from "./CustomNumberInputStyle";
-import {Box, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
+
 
 
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
@@ -21,6 +23,7 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
                     incrementButton: {
                         children: <AddIcon fontSize="small" />,
                         className: 'increment',
+                     
                     },
                     decrementButton: {
                         children: <RemoveIcon fontSize="small" />,
@@ -33,8 +36,16 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     );
 });
 
-export default function CustomNumberInput( { label, value, onChange}) {
+export default function CustomNumberInput( { label, newValue= null, onChange}) {
     const inputId = "custom-number-input";
+    const [value, setValue] = useState(newValue);
+    const handleChange = (event, val) => {
+
+        setValue(val);
+        if (onChange) {
+            onChange(val); 
+        }
+    };
     return(
         <>
             <Typography style={LabelStyle}  variant="caption" component="label" htmlFor={inputId}>
@@ -45,8 +56,9 @@ export default function CustomNumberInput( { label, value, onChange}) {
                 aria-label="Number input field" 
                 min={1} 
                 max={99} 
-                onChange={onChange}
-                value={value}
+                onChange={handleChange}
+                value={value || 1}
+                
             />
         </>
         
