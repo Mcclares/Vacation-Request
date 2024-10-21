@@ -7,23 +7,28 @@ import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 import {FieldStyle} from "./RequestFormStyle";
 import dayjs from "dayjs";
 import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
+import useCalculateEndDate from "../../hooks/useCalculateEndDate";
 export default function RequestForm() {
     const today = dayjs();
     const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    // const [vacationDays, setVacationDays] = useVacationDays(startDate,endDate)
-    const [vacationDays, setVacationDays] = useCalculateVacationDays(startDate,endDate);
+    const [vacationDays, setVacationDays] = useState(0);
+    const [endDate,setEndDate] = useState(null);
+    const [isManualDaysInput, setIsManualDaysInput] = useState(false);
     
+    const [calculatedEndDate] = useCalculateEndDate(startDate,vacationDays)
+    const [calculatedVacationDays] = useCalculateVacationDays(startDate,endDate)
     const handleStartDateChange = (newDate) => {
         setStartDate(newDate);
+        setIsManualDaysInput(false);
     }
     const handleEndDateChange = (newDate) => {
         setEndDate(newDate)
+        setIsManualDaysInput(false);
     }
     const handleVacationDaysChange = (event) => {
         const days = parseInt(event.target.value, 10 ) || 1 ;
-        console.log('Setting vacation days to:', days);
         setVacationDays(days);
+        setIsManualDaysInput(true);
     }
     
     return (
@@ -39,12 +44,13 @@ export default function RequestForm() {
                     sx={FieldStyle}  
                     label="Vacation days"
                     onChange={handleVacationDaysChange}
-                    value={vacationDays}
+                    value={isManualDaysInput ? vacationDays : calculatedVacationDays}
                     required/>
                 <DatePicker 
                     sx={FieldStyle}  
                     label="End date" 
                     minDate={today}
+                    value={calculatedVacationDays}
                     onChange={handleEndDateChange}
                     required></DatePicker>
                 <TextField 
