@@ -1,13 +1,10 @@
 ﻿import {useState , useEffect} from "react";
 import React from "react";
 import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_NumberInput';
-
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import {StyledButton,StyledInput,StyledInputRoot, LabelStyle} from "./CustomNumberInputStyle";
 import {Typography} from "@mui/material";
-
-
 
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     return (
@@ -40,10 +37,9 @@ export default function CustomNumberInput( { label, newValue= null, onChange}) {
     const inputId = "custom-number-input";
     const [value, setValue] = useState(newValue);
     const handleChange = (event, val) => {
-
         setValue(val);
         if (onChange) {
-            onChange(val); 
+            onChange(val);
         }
     };
     return(
@@ -58,9 +54,7 @@ export default function CustomNumberInput( { label, newValue= null, onChange}) {
                 max={99} 
                 onChange={handleChange}
                 value={value || 1}
-                
             />
         </>
-        
     )
 }
