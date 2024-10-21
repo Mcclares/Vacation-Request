@@ -24,7 +24,7 @@ const grey = {
     900: '#1C2025',
 };
 
-const StyledInputRoot = styled('div')(
+export const StyledInputRoot = styled('div')(
     ({ theme }) => `
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 400;
@@ -36,7 +36,7 @@ const StyledInputRoot = styled('div')(
     `
 );
 
-const StyledInput = styled('input')(
+export const StyledInput = styled('input')(
     ({ theme }) => `
     font-size: 0.875rem;
     font-family: inherit;
@@ -71,7 +71,7 @@ const StyledInput = styled('input')(
     `
 );
 
-const StyledButton = styled('button')(
+export const StyledButton = styled('button')(
     ({ theme }) => `
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.875rem;
