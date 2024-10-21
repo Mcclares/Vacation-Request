@@ -1,7 +1,7 @@
 ﻿import {useEffect, useState} from "react";
 
 
-const useVacationDays = (startDate, endDate) => {
+const useCalculateVacationDays = (startDate, endDate) => {
     const [vacationDays, setVacationDays] = useState(0)
 
     useEffect(() => {
@@ -16,4 +16,4 @@ const useVacationDays = (startDate, endDate) => {
     return [vacationDays];
 }
 
-export default useVacationDays;
+export default useCalculateVacationDays;

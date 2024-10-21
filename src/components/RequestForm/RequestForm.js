@@ -6,13 +6,13 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 import {FieldStyle} from "./RequestFormStyle";
 import dayjs from "dayjs";
-import useVacationDays from "../../hooks/useVacationDays";
+import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 export default function RequestForm() {
     const today = dayjs();
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     // const [vacationDays, setVacationDays] = useVacationDays(startDate,endDate)
-    const [vacationDays, setVacationDays] = useVacationDays(startDate,endDate);
+    const [vacationDays, setVacationDays] = useCalculateVacationDays(startDate,endDate);
     
     const handleStartDateChange = (newDate) => {
         setStartDate(newDate);
