@@ -108,3 +108,8 @@ export const StyledButton = styled('button')(
     }
     `
 );
+
+export const labelStyle = {
+    fontSize: "16px",
+   
+}

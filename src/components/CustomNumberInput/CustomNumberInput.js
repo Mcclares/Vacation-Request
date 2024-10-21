@@ -3,8 +3,9 @@ import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_Numb
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import {StyledButton,StyledInput,StyledInputRoot} from "./CustomNumberInputStyle";
+import {StyledButton,StyledInput,StyledInputRoot, labelStyle} from "./CustomNumberInputStyle";
 import {Box, Typography} from "@mui/material";
+
 
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     return (
@@ -36,7 +37,7 @@ export default function CustomNumberInput( { label}) {
     const inputId = "custom-number-input";
     return(
         <>
-            <Typography variant="caption" component="label" htmlFor={inputId}>
+            <Typography style={labelStyle}  variant="caption" component="label" htmlFor={inputId}>
                 {label}
             </Typography>
             <NumberInput  id={inputId} aria-label="Number input field" min={1} max={99} />
