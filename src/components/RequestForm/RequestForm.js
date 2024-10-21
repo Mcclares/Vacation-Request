@@ -10,26 +10,47 @@ import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 import useCalculateEndDate from "../../hooks/useCalculateEndDate";
 export default function RequestForm() {
     const today = dayjs();
-    const [startDate, setStartDate] = useState(null);
-    const [vacationDays, setVacationDays] = useState(0);
-    const [endDate,setEndDate] = useState(null);
-    const [isManualDaysInput, setIsManualDaysInput] = useState(false);
+    const [startDate, setStartDate] = useState(today);
+    const [vacationDays, setVacationDays] = useState(1);
+    const [endDate,setEndDate] = useState(today);
     
-    const [calculatedEndDate] = useCalculateEndDate(startDate,vacationDays)
-    const [calculatedVacationDays] = useCalculateVacationDays(startDate,endDate)
+    
+    useEffect(() => {
+        if(endDate) {
+            const daysDiff = endDate.diff(startDate, 'day');
+            setVacationDays(daysDiff);
+        }
+
+    }, [endDate, startDate])
+
+    useEffect(() => {
+        if(startDate && vacationDays) {
+            const calculatedEndDate = startDate.add(vacationDays, 'day');
+            setEndDate(calculatedEndDate)
+        }
+    },[startDate,vacationDays])
+    
     const handleStartDateChange = (newDate) => {
-        setStartDate(newDate);
-        setIsManualDaysInput(false);
+        const newStartDate = newDate ? dayjs(newDate) : null;
+        setStartDate(newDate ? dayjs(newDate) : null);
+        if(newStartDate) {
+            const calculatedEndDate = newStartDate.add(vacationDays, 'day');
+            setEndDate(calculatedEndDate)
+        }
+       
     }
     const handleEndDateChange = (newDate) => {
-        setEndDate(newDate)
-        setIsManualDaysInput(false);
+        setEndDate(newDate ? dayjs(newDate) : null);
+      
     }
-    const handleVacationDaysChange = (event) => {
-        const days = parseInt(event.target.value, 10 ) || 1 ;
-        setVacationDays(days);
-        setIsManualDaysInput(true);
-    }
+    const handleVacationDaysChange = (value) => {
+        const days = value
+        if (!isNaN(days)) {
+            setVacationDays(days); 
+        } else {
+            console.error('Get undefined');
+        }
+    };
     
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -38,19 +59,20 @@ export default function RequestForm() {
                     sx={FieldStyle} 
                     label="Start date" 
                     minDate={today} 
+                    value={startDate}
                     onChange={handleStartDateChange}
                     required/>
                 <CustomNumberInput 
                     sx={FieldStyle}  
                     label="Vacation days"
+                    newValue={vacationDays}
                     onChange={handleVacationDaysChange}
-                    value={isManualDaysInput ? vacationDays : calculatedVacationDays}
                     required/>
                 <DatePicker 
                     sx={FieldStyle}  
                     label="End date" 
                     minDate={today}
-                    value={calculatedVacationDays}
+                    value={endDate}
                     onChange={handleEndDateChange}
                     required></DatePicker>
                 <TextField 
