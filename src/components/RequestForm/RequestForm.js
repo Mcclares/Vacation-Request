@@ -32,7 +32,7 @@ export default function RequestForm() {
     
     const handleStartDateChange = (newDate) => {
         const newStartDate = newDate ? dayjs(newDate) : null;
-        setStartDate(newDate ? dayjs(newDate) : null);
+        setStartDate(newStartDate);
         if(newStartDate) {
             const calculatedEndDate = newStartDate.add(vacationDays, 'day');
             setEndDate(calculatedEndDate)
@@ -40,11 +40,12 @@ export default function RequestForm() {
        
     }
     const handleEndDateChange = (newDate) => {
-        setEndDate(newDate ? dayjs(newDate) : null);
-      
+        const newEndDate = newDate ? dayjs(newDate) : null;
+        setEndDate(newEndDate);
+       
     }
     const handleVacationDaysChange = (value) => {
-        const days = value
+        const days = value;
         if (!isNaN(days)) {
             setVacationDays(days); 
         } else {
