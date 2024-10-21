@@ -1,4 +1,4 @@
-﻿import {useState} from "react";
+﻿import {useEffect, useState} from "react";
 import {FormControl, InputLabel, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {LocalizationProvider} from "@mui/x-date-pickers";
@@ -11,8 +11,15 @@ export default function RequestForm() {
     const today = dayjs();
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [vacationDays, setVacationDays] = useVacationDays(startDate,endDate)
-    
+    // const [vacationDays, setVacationDays] = useVacationDays(startDate,endDate)
+    const [vacationDays, setVacationDays] = useState(0);
+
+    useEffect(() => {
+        if(startDate && endDate) {
+            const daysDiff = endDate.diff(startDate, 'day');
+            setVacationDays(daysDiff);
+        }
+    }, [startDate, endDate]);
     const handleStartDateChange = (newDate) => {
         setStartDate(newDate);
     }
