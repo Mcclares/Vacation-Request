@@ -1,4 +1,4 @@
 ﻿
 export const FieldStyle = {
-    marginTop: '20px',
+    marginTop: '30px',
 }

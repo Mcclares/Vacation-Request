@@ -111,5 +111,6 @@ export const StyledButton = styled('button')(
 
 export const LabelStyle = {
     fontSize: "16px",
+    marginTop: "20px"
    
 }
