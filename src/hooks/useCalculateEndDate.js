@@ -1,6 +1,6 @@
 ﻿import {useEffect, useState} from "react";
 
-const UseCalculateEndDate = (startDate, vacationDays) => {
+const useCalculateEndDate = (startDate, vacationDays) => {
     const [endDate, setEndDate] = useState(null);
     useEffect(() => {
         if(startDate && vacationDays) {
@@ -14,4 +14,4 @@ const UseCalculateEndDate = (startDate, vacationDays) => {
     return [endDate];
 };
 
-export default UseCalculateEndDate;
+export default useCalculateEndDate;
