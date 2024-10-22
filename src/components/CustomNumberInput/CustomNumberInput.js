@@ -5,6 +5,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import {StyledButton,StyledInput,StyledInputRoot, LabelStyle} from "./CustomNumberInputStyle";
 import {Typography} from "@mui/material";
+import {FormHelperText} from "@mui/material";
 
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     return (
@@ -60,7 +61,11 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
                 max={maxValue} 
                 onChange={handleChange}
                 value={value || 1}
+                
             />
+            <FormHelperText>
+                You can take 28 days of paid vacation.
+            </FormHelperText>
         </>
     )
 }
