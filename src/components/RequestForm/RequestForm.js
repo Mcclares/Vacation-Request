@@ -22,9 +22,10 @@ export default function RequestForm() {
     const [vacationDays, setVacationDays] = useState(1);
     const [endDate,setEndDate] = useState(tomorrow);
     
+    
     const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
     const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
-
+    const [maxEndDay, setMaxEndDay] = useState(endOfYearEndDate);
     
     const timeoutRef = useRef(null);
     
@@ -41,6 +42,7 @@ export default function RequestForm() {
             const daysDiff = endDate.diff(startDate, 'day');
             setVacationDays(daysDiff);
         }
+     
     }, [endDate, startDate])
 
     useEffect(() => {
@@ -62,10 +64,13 @@ export default function RequestForm() {
             if (newStartDate && newStartDate.isAfter(today, 'day') && newStartDate.isBefore(endOfYearStartDate, 'day')) {
                 setStartDate(newStartDate);
                 setEndDate(newStartDate.add(vacationDays, 'day'));
+                const maxEndDate = newStartDate.add(maxVacationDays, 'day');
+                setMaxEndDay(maxEndDate);
             } else if (newStartDate) {
                 setStartDate(today);
                 setVacationDays(1);
                 setEndDate(tomorrow);
+                setMaxEndDay(endOfYearEndDate);
             }
         }, 1500);
         
@@ -74,13 +79,14 @@ export default function RequestForm() {
     const handleEndDateChange = (newDate) => {
         const newEndDate = newDate ? dayjs(newDate) : null;
         
+        
         if(timeoutRef.current) {
             clearTimeout(timeoutRef.current)
         }
         timeoutRef.current = setTimeout(() => {
             if(newEndDate && newEndDate.isAfter(tomorrow, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
                 setEndDate(newEndDate);
-                
+                    
             }else if(newEndDate) {
                 setEndDate(tomorrow);
             }
@@ -127,7 +133,7 @@ export default function RequestForm() {
                     label="End date" 
                     minDate={tomorrow}
                     value={endDate}
-                    maxDate={endOfYearEndDate}
+                    maxDate={maxEndDay}
                     onChange={handleEndDateChange}
                     format={"DD/MM/YY"}
                     slotProps={{
