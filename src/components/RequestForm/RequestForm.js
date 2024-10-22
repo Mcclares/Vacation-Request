@@ -11,10 +11,12 @@ import useCalculateEndDate from "../../hooks/useCalculateEndDate";
 export default function RequestForm() {
     const today = dayjs();
     const tomorrow = today.add(1,'day');
+    const endOfYear = today.endOf('year');
+    const currentYear = today.year();
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
-    const [endDate,setEndDate] = useState(today);
+    const [endDate,setEndDate] = useState(tomorrow);
     
     
     useEffect(() => {
@@ -34,22 +36,35 @@ export default function RequestForm() {
     
     const handleStartDateChange = (newDate) => {
         const newStartDate = newDate ? dayjs(newDate) : null;
-        setStartDate(newStartDate);
-        if(newStartDate) {
+        
+        if(newStartDate && newStartDate.isBefore(today, 'day')) {
+            setStartDate(today);
+            const calculatedEndDate = today.add(vacationDays, 'day');
+            setEndDate(calculatedEndDate)
+        }else if (newStartDate && newStartDate.isAfter(endOfYear, 'year')) {
+            setStartDate(today)
+        } else if(newStartDate) {
+            setStartDate(newStartDate);
             const calculatedEndDate = newStartDate.add(vacationDays, 'day');
             setEndDate(calculatedEndDate)
         }
        
     }
+    
     const handleEndDateChange = (newDate) => {
         const newEndDate = newDate ? dayjs(newDate) : null;
+        
         if(newEndDate && newEndDate.isBefore(tomorrow, 'day')) {
             setEndDate(tomorrow);
-        }else {
+        } else if (newEndDate && newEndDate.isAfter(endOfYear, 'year')){
+            setEndDate(tomorrow);
+        }else if(newEndDate) {
             setEndDate(newEndDate);
         }
        
     }
+    
+    
     const handleVacationDaysChange = (value) => {
         const days = value;
         if (!isNaN(days)) {
@@ -68,6 +83,14 @@ export default function RequestForm() {
                     minDate={today} 
                     value={startDate}
                     onChange={handleStartDateChange}
+                    maxDate={endOfYear}
+                    format={"DD/MM/YY"}
+                    slotProps={{
+                        textField: {
+                            helperText: `DD/MM/YY`,
+                           
+                        },
+                    }}
                     required/>
                 <CustomNumberInput 
                     sx={FieldStyle}  
@@ -80,7 +103,14 @@ export default function RequestForm() {
                     label="End date" 
                     minDate={tomorrow}
                     value={endDate}
+                    maxDate={endOfYear}
                     onChange={handleEndDateChange}
+                    format={"DD/MM/YY"}
+                    slotProps={{
+                        textField: {
+                            helperText: `DD/MM/YY`,
+                        },
+                    }}
                     required/>
                 <TextField 
                     multiline
