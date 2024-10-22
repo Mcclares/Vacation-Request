@@ -27,6 +27,8 @@ export default function RequestForm() {
     
     const nextDayAfterStartDay = startDate.add(1,'day');
     
+    const [comment, setComment] = useState('');
+    
     // const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
     // const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
     const [maxEndDay, setMaxEndDay] = useState(startDate.add(MAX_VACATION_DAYS, 'day'));
@@ -98,6 +100,20 @@ export default function RequestForm() {
             setVacationDays(days); 
         }
     };
+    const handleSubmit = () => {
+        const requestId = Date.now();
+        
+        const formData = {
+            id: requestId,
+            startDate: startDate.format("DD/MM/YYYY"),
+            vacationDays: vacationDays,
+            endDate: endDate.format("DD/MM/YYYY")
+        }
+        const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
+        existingRequest.push(formData);
+        localStorage.setItem('vacationRequest', JSON.stringify(existingRequest));
+        
+    }
     
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -143,12 +159,14 @@ export default function RequestForm() {
                 <TextField 
                     multiline
                     rows={5} 
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
                     variant="outlined"
                     label="Comment"
                     helperText="Please leave your comments or suggestions."
                     sx={FieldStyle}
                    />
-                <CustomButton name="Submit"/>
+                <CustomButton name="Submit" onClick={handleSubmit}/>
                 
             </FormControl>
             
