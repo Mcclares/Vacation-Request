@@ -6,6 +6,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 import {FieldStyle} from "./RequestFormStyle";
 import dayjs from "dayjs";
+import CustomButton from "../Button/СustomButton";
 import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 import useCalculateEndDate from "../../hooks/useCalculateEndDate";
 
@@ -115,7 +116,6 @@ export default function RequestForm() {
                            
                         },
                     }}
-                    
                     required/>
                 <CustomNumberInput 
                     sx={FieldStyle}  
