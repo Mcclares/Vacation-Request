@@ -16,6 +16,7 @@ export default function RequestForm() {
     const today = dayjs();
     const tomorrow = today.add(1,'day');
     
+    
     const endOfYearEndDate = today.endOf('year');
     const endOfYearStartDate = today.endOf('year').subtract(1,'day');
     
@@ -23,6 +24,7 @@ export default function RequestForm() {
     const [vacationDays, setVacationDays] = useState(1);
     const [endDate,setEndDate] = useState(tomorrow);
     
+    const nextDayAfterStartDay = startDate.add(1,'day');
     
     // const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
     // const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
@@ -30,28 +32,28 @@ export default function RequestForm() {
     
     const timeoutRef = useRef(null);
     
-    useEffect(() => {
-        return () => {
-            if(timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        }
-    })
-    
-    useEffect(() => {
-        if(endDate) {
-            const daysDiff = endDate.diff(startDate, 'day');
-            setVacationDays(daysDiff);
-        }
-     
-    }, [endDate, startDate])
+    // useEffect(() => {
+    //     return () => {
+    //         if(timeoutRef.current) {
+    //             clearTimeout(timeoutRef.current);
+    //         }
+    //     }
+    // })
+    //
+    // useEffect(() => {
+    //     if(endDate && endDate.isAfter(startDate,'day')) {
+    //         const daysDiff = endDate.diff(startDate, 'day');
+    //         setVacationDays(daysDiff);
+    //     }
+    //
+    // }, [endDate, startDate])
 
-    useEffect(() => {
-        if(startDate && vacationDays) {
-            const calculatedEndDate = startDate.add(vacationDays, 'day');
-            setEndDate(calculatedEndDate)
-        }
-    },[startDate,vacationDays])
+    // useEffect(() => {
+    //     if(startDate && vacationDays) {
+    //         const calculatedEndDate = startDate.add(vacationDays, 'day');
+    //         setEndDate(calculatedEndDate)
+    //     }
+    // },[startDate,vacationDays])
 
     
     const handleStartDateChange = (newDate) => {
@@ -82,25 +84,16 @@ export default function RequestForm() {
     
     const handleEndDateChange = (newDate) => {
         const newEndDate = newDate ? dayjs(newDate) : null;
-        
-        
-        if(timeoutRef.current) {
-            clearTimeout(timeoutRef.current)
+        if(newEndDate && newEndDate.isAfter(startDate, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
+            setEndDate(newEndDate);
+           
         }
-        timeoutRef.current = setTimeout(() => {
-            if(newEndDate && newEndDate.isAfter(startDate, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
-                setEndDate(newEndDate);
-                    
-            }else if(newEndDate) {
-                setEndDate(startDate.add(1, 'day'));
-            }
-         },1500);
-       
     }
     
     
     const handleVacationDaysChange = (days) => {
         if (!isNaN(days)) {
+            setEndDate(startDate.add(days, 'day'));
             setVacationDays(days); 
         }
     };
@@ -132,10 +125,11 @@ export default function RequestForm() {
                     maxValue={MAX_VACATION_DAYS}
                     required/>
                     
-                <DatePicker 
-                    sx={FieldStyle}  
+                <DatePicker
+                    
+                    sx={FieldStyle}
                     label="End date" 
-                    minDate={tomorrow}
+                    minDate={nextDayAfterStartDay}
                     value={endDate}
                     maxDate={maxEndDay}
                     onChange={handleEndDateChange}
