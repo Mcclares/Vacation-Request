@@ -11,8 +11,8 @@ import useCalculateEndDate from "../../hooks/useCalculateEndDate";
 export default function RequestForm() {
     const today = dayjs();
     const tomorrow = today.add(1,'day');
-    const endOfYear = today.endOf('year');
-    const currentYear = today.year();
+    const endOfYearEndDate = today.endOf('year');
+    const endOfYearStartDate = today.endOf('year').subtract(1,'day');
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
@@ -24,7 +24,6 @@ export default function RequestForm() {
             const daysDiff = endDate.diff(startDate, 'day');
             setVacationDays(daysDiff);
         }
-
     }, [endDate, startDate])
 
     useEffect(() => {
@@ -41,7 +40,7 @@ export default function RequestForm() {
             setStartDate(today);
             const calculatedEndDate = today.add(vacationDays, 'day');
             setEndDate(calculatedEndDate)
-        }else if (newStartDate && newStartDate.isAfter(endOfYear, 'year')) {
+        }else if (newStartDate && newStartDate.isAfter(endOfYearStartDate, 'year')) {
             setStartDate(today)
         } else if(newStartDate) {
             setStartDate(newStartDate);
@@ -56,7 +55,7 @@ export default function RequestForm() {
         
         if(newEndDate && newEndDate.isBefore(tomorrow, 'day')) {
             setEndDate(tomorrow);
-        } else if (newEndDate && newEndDate.isAfter(endOfYear, 'year')){
+        } else if (newEndDate && newEndDate.isAfter(endOfYearEndDate, 'year')){
             setEndDate(tomorrow);
         }else if(newEndDate) {
             setEndDate(newEndDate);
@@ -83,7 +82,7 @@ export default function RequestForm() {
                     minDate={today} 
                     value={startDate}
                     onChange={handleStartDateChange}
-                    maxDate={endOfYear}
+                    maxDate={endOfYearStartDate}
                     format={"DD/MM/YY"}
                     slotProps={{
                         textField: {
@@ -97,13 +96,15 @@ export default function RequestForm() {
                     label="Vacation days"
                     newValue={vacationDays}
                     onChange={handleVacationDaysChange}
+                    
                     required/>
+                    
                 <DatePicker 
                     sx={FieldStyle}  
                     label="End date" 
                     minDate={tomorrow}
                     value={endDate}
-                    maxDate={endOfYear}
+                    maxDate={endOfYearEndDate}
                     onChange={handleEndDateChange}
                     format={"DD/MM/YY"}
                     slotProps={{
