@@ -33,7 +33,7 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     );
 });
 
-export default function CustomNumberInput( { label, newValue= null, onChange}) {
+export default function CustomNumberInput( { label, newValue= null, onChange, maxValue}) {
     const inputId = "custom-number-input";
     const [value, setValue] = useState(newValue);
     
@@ -57,7 +57,7 @@ export default function CustomNumberInput( { label, newValue= null, onChange}) {
                 id={inputId} 
                 aria-label="Number input field" 
                 min={1} 
-                max={99} 
+                max={maxValue} 
                 onChange={handleChange}
                 value={value || 1}
             />
