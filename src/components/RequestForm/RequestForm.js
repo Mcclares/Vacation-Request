@@ -1,4 +1,4 @@
-﻿import {useEffect, useState} from "react";
+﻿import {useEffect, useRef, useState} from "react";
 import {FormControl, InputLabel, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {LocalizationProvider} from "@mui/x-date-pickers";
@@ -17,6 +17,7 @@ export default function RequestForm() {
     const tomorrow = today.add(1,'day');
     const endOfYearEndDate = today.endOf('year');
     const endOfYearStartDate = today.endOf('year').subtract(1,'day');
+    const currentYear = today.year();
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
@@ -24,6 +25,17 @@ export default function RequestForm() {
     
     const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
     const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
+    const [tempStartDate, setTempStartDate] = useState(null);
+    
+    const timeoutRef = useRef(null);
+    
+    useEffect(() => {
+        return () => {
+            if(timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        }
+    })
     
     useEffect(() => {
         if(endDate) {
@@ -39,21 +51,32 @@ export default function RequestForm() {
         }
     },[startDate,vacationDays])
     
+    
     const handleStartDateChange = (newDate) => {
         const newStartDate = newDate ? dayjs(newDate) : null;
-        
-        if(newStartDate && newStartDate.isBefore(today, 'day')) {
-            setStartDate(today);
-            const calculatedEndDate = today.add(vacationDays, 'day');
-            setEndDate(calculatedEndDate)
-        }else if (newStartDate && newStartDate.isAfter(endOfYearStartDate, 'year')) {
-            setStartDate(today)
-            setEndDate(tomorrow)
-        } else if(newStartDate) {
-            setStartDate(newStartDate);
-            const calculatedEndDate = newStartDate.add(vacationDays, 'day');
-            setEndDate(calculatedEndDate)
+        if(timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
         }
+        
+        console.log('New Start Date:', newStartDate?.format('DD/MM/YYYY'));
+        
+        timeoutRef.current = setTimeout(() => {
+            if (newStartDate) {
+                if (newStartDate.isBefore(today, 'day')) {
+                    console.log('Invalid start date. It is before today. Resetting to today:', today.format('DD/MM/YYYY'));
+                    setStartDate(today);
+                } else if (newStartDate.isAfter(endOfYearStartDate, 'year')) {
+                    console.log('Invalid start date. It is after the end of the year. Resetting to today:', today.format('DD/MM/YYYY'));
+                    
+                    setStartDate(today);
+                } else {
+                    console.log('Valid start date set:', newStartDate.format('DD/MM/YYYY'));
+                    setStartDate(newStartDate);
+                }
+            } else {
+                console.log('New start date is null or invalid.');
+            }
+        },3000)
        
     }
     
@@ -79,7 +102,6 @@ export default function RequestForm() {
             console.error('Get undefined');
         }
     };
-    
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <FormControl >
@@ -97,6 +119,7 @@ export default function RequestForm() {
                            
                         },
                     }}
+                    
                     required/>
                 <CustomNumberInput 
                     sx={FieldStyle}  
