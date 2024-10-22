@@ -8,7 +8,11 @@ import {FieldStyle} from "./RequestFormStyle";
 import dayjs from "dayjs";
 import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 import useCalculateEndDate from "../../hooks/useCalculateEndDate";
+
+const MAX_VACATION_DAYS = 28;
+
 export default function RequestForm() {
+
     const today = dayjs();
     const tomorrow = today.add(1,'day');
     const endOfYearEndDate = today.endOf('year');
@@ -18,6 +22,8 @@ export default function RequestForm() {
     const [vacationDays, setVacationDays] = useState(1);
     const [endDate,setEndDate] = useState(tomorrow);
     
+    const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
+    const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
     
     useEffect(() => {
         if(endDate) {
@@ -42,6 +48,7 @@ export default function RequestForm() {
             setEndDate(calculatedEndDate)
         }else if (newStartDate && newStartDate.isAfter(endOfYearStartDate, 'year')) {
             setStartDate(today)
+            setEndDate(tomorrow)
         } else if(newStartDate) {
             setStartDate(newStartDate);
             const calculatedEndDate = newStartDate.add(vacationDays, 'day');
@@ -96,7 +103,7 @@ export default function RequestForm() {
                     label="Vacation days"
                     newValue={vacationDays}
                     onChange={handleVacationDaysChange}
-                    
+                    maxValue={maxVacationDays}
                     required/>
                     
                 <DatePicker 
