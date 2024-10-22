@@ -23,9 +23,9 @@ export default function RequestForm() {
     const [endDate,setEndDate] = useState(tomorrow);
     
     
-    const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
-    const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
-    const [maxEndDay, setMaxEndDay] = useState(endOfYearEndDate);
+    // const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
+    // const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
+    const [maxEndDay, setMaxEndDay] = useState(startDate.add(MAX_VACATION_DAYS, 'day'));
     
     const timeoutRef = useRef(null);
     
@@ -63,9 +63,11 @@ export default function RequestForm() {
         timeoutRef.current = setTimeout(() => {
             if (newStartDate && newStartDate.isAfter(today, 'day') && newStartDate.isBefore(endOfYearStartDate, 'day')) {
                 setStartDate(newStartDate);
-                setEndDate(newStartDate.add(vacationDays, 'day'));
-                const maxEndDate = newStartDate.add(maxVacationDays, 'day');
-                setMaxEndDay(maxEndDate);
+                
+                // const potentialMaxEndDate = newStartDate.add(MAX_VACATION_DAYS, 'day');
+                // const maxEndDate = potentialMaxEndDate.isAfter(endOfYearEndDate) ? endOfYearEndDate : potentialMaxEndDate;
+                // setMaxEndDay(maxEndDate)
+                
             } else if (newStartDate) {
                 setStartDate(today);
                 setVacationDays(1);
@@ -125,7 +127,7 @@ export default function RequestForm() {
                     label="Vacation days"
                     newValue={vacationDays}
                     onChange={handleVacationDaysChange}
-                    maxValue={maxVacationDays}
+                    maxValue={MAX_VACATION_DAYS}
                     required/>
                     
                 <DatePicker 
