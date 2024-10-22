@@ -15,6 +15,7 @@ export default function RequestForm() {
 
     const today = dayjs();
     const tomorrow = today.add(1,'day');
+    
     const endOfYearEndDate = today.endOf('year');
     const endOfYearStartDate = today.endOf('year').subtract(1,'day');
     
@@ -64,9 +65,10 @@ export default function RequestForm() {
             if (newStartDate && newStartDate.isAfter(today, 'day') && newStartDate.isBefore(endOfYearStartDate, 'day')) {
                 setStartDate(newStartDate);
                 
-                // const potentialMaxEndDate = newStartDate.add(MAX_VACATION_DAYS, 'day');
-                // const maxEndDate = potentialMaxEndDate.isAfter(endOfYearEndDate) ? endOfYearEndDate : potentialMaxEndDate;
-                // setMaxEndDay(maxEndDate)
+                const potentialMaxEndDate = newStartDate.add(MAX_VACATION_DAYS, 'day');
+                const maxEndDate = potentialMaxEndDate.isAfter(endOfYearEndDate) ? endOfYearEndDate : potentialMaxEndDate;
+                setMaxEndDay(maxEndDate)
+                setEndDate(newStartDate.add(vacationDays, 'day'));
                 
             } else if (newStartDate) {
                 setStartDate(today);
@@ -86,11 +88,11 @@ export default function RequestForm() {
             clearTimeout(timeoutRef.current)
         }
         timeoutRef.current = setTimeout(() => {
-            if(newEndDate && newEndDate.isAfter(tomorrow, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
+            if(newEndDate && newEndDate.isAfter(startDate, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
                 setEndDate(newEndDate);
                     
             }else if(newEndDate) {
-                setEndDate(tomorrow);
+                setEndDate(startDate.add(1, 'day'));
             }
          },1500);
        
