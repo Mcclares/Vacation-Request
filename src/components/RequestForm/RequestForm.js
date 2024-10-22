@@ -10,7 +10,7 @@ import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 import useCalculateEndDate from "../../hooks/useCalculateEndDate";
 export default function RequestForm() {
     const today = dayjs();
-    const tommorow = today.add(1,'day');
+    const tomorrow = today.add(1,'day');
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
@@ -43,8 +43,8 @@ export default function RequestForm() {
     }
     const handleEndDateChange = (newDate) => {
         const newEndDate = newDate ? dayjs(newDate) : null;
-        if(newEndDate && newEndDate.isBefore(tommorow, 'day')) {
-            setEndDate(tommorow);
+        if(newEndDate && newEndDate.isBefore(tomorrow, 'day')) {
+            setEndDate(tomorrow);
         }else {
             setEndDate(newEndDate);
         }
@@ -78,7 +78,7 @@ export default function RequestForm() {
                 <DatePicker 
                     sx={FieldStyle}  
                     label="End date" 
-                    minDate={tommorow}
+                    minDate={tomorrow}
                     value={endDate}
                     onChange={handleEndDateChange}
                     required/>
