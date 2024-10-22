@@ -25,7 +25,7 @@ export default function RequestForm() {
     
     const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
     const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
-    const [tempStartDate, setTempStartDate] = useState(null);
+
     
     const timeoutRef = useRef(null);
     
@@ -50,46 +50,42 @@ export default function RequestForm() {
             setEndDate(calculatedEndDate)
         }
     },[startDate,vacationDays])
-    
+
     
     const handleStartDateChange = (newDate) => {
         const newStartDate = newDate ? dayjs(newDate) : null;
-        if(timeoutRef.current) {
+        
+        if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
         
-        console.log('New Start Date:', newStartDate?.format('DD/MM/YYYY'));
-        
         timeoutRef.current = setTimeout(() => {
-            if (newStartDate) {
-                if (newStartDate.isBefore(today, 'day')) {
-                    console.log('Invalid start date. It is before today. Resetting to today:', today.format('DD/MM/YYYY'));
-                    setStartDate(today);
-                } else if (newStartDate.isAfter(endOfYearStartDate, 'year')) {
-                    console.log('Invalid start date. It is after the end of the year. Resetting to today:', today.format('DD/MM/YYYY'));
-                    
-                    setStartDate(today);
-                } else {
-                    console.log('Valid start date set:', newStartDate.format('DD/MM/YYYY'));
-                    setStartDate(newStartDate);
-                }
-            } else {
-                console.log('New start date is null or invalid.');
+            if (newStartDate && newStartDate.isAfter(today, 'day') && newStartDate.isBefore(endOfYearStartDate, 'day')) {
+                setStartDate(newStartDate);
+                setEndDate(newStartDate.add(vacationDays, 'day'));
+            } else if (newStartDate) {
+                setStartDate(today);
+                setVacationDays(1);
+                setEndDate(tomorrow);
             }
-        },3000)
-       
+        }, 1500);
+        
     }
     
     const handleEndDateChange = (newDate) => {
         const newEndDate = newDate ? dayjs(newDate) : null;
         
-        if(newEndDate && newEndDate.isBefore(tomorrow, 'day')) {
-            setEndDate(tomorrow);
-        } else if (newEndDate && newEndDate.isAfter(endOfYearEndDate, 'year')){
-            setEndDate(tomorrow);
-        }else if(newEndDate) {
-            setEndDate(newEndDate);
+        if(timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
         }
+        timeoutRef.current = setTimeout(() => {
+            if(newEndDate && newEndDate.isAfter(tomorrow, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
+                setEndDate(newEndDate);
+                
+            }else if(newEndDate) {
+                setEndDate(tomorrow);
+            }
+         },1500)
        
     }
     
@@ -99,7 +95,7 @@ export default function RequestForm() {
         if (!isNaN(days)) {
             setVacationDays(days); 
         } else {
-            console.error('Get undefined');
+           
         }
     };
     return (
