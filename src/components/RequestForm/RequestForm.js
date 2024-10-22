@@ -32,28 +32,28 @@ export default function RequestForm() {
     
     const timeoutRef = useRef(null);
     
-    // useEffect(() => {
-    //     return () => {
-    //         if(timeoutRef.current) {
-    //             clearTimeout(timeoutRef.current);
-    //         }
-    //     }
-    // })
-    //
-    // useEffect(() => {
-    //     if(endDate && endDate.isAfter(startDate,'day')) {
-    //         const daysDiff = endDate.diff(startDate, 'day');
-    //         setVacationDays(daysDiff);
-    //     }
-    //
-    // }, [endDate, startDate])
+    useEffect(() => {
+        return () => {
+            if(timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        }
+    })
 
-    // useEffect(() => {
-    //     if(startDate && vacationDays) {
-    //         const calculatedEndDate = startDate.add(vacationDays, 'day');
-    //         setEndDate(calculatedEndDate)
-    //     }
-    // },[startDate,vacationDays])
+    useEffect(() => {
+        if(endDate && endDate.isAfter(startDate,'day')) {
+            const daysDiff = endDate.diff(startDate, 'day');
+            setVacationDays(daysDiff);
+        }
+
+    }, [endDate, startDate])
+
+    useEffect(() => {
+        if(startDate && vacationDays) {
+            const calculatedEndDate = startDate.add(vacationDays, 'day');
+            setEndDate(calculatedEndDate)
+        }
+    },[startDate,vacationDays])
 
     
     const handleStartDateChange = (newDate) => {
@@ -148,6 +148,7 @@ export default function RequestForm() {
                     helperText="Please leave your comments or suggestions."
                     sx={FieldStyle}
                    />
+                
             </FormControl>
             
         </LocalizationProvider>
