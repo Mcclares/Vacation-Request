@@ -17,7 +17,6 @@ export default function RequestForm() {
     const tomorrow = today.add(1,'day');
     const endOfYearEndDate = today.endOf('year');
     const endOfYearStartDate = today.endOf('year').subtract(1,'day');
-    const currentYear = today.year();
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
@@ -85,19 +84,17 @@ export default function RequestForm() {
             }else if(newEndDate) {
                 setEndDate(tomorrow);
             }
-         },1500)
+         },1500);
        
     }
     
     
-    const handleVacationDaysChange = (value) => {
-        const days = value;
+    const handleVacationDaysChange = (days) => {
         if (!isNaN(days)) {
             setVacationDays(days); 
-        } else {
-           
         }
     };
+    
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <FormControl >
