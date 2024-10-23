@@ -122,64 +122,66 @@ export default function RequestForm() {
         const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
         existingRequest.push(formData);
         localStorage.setItem('vacationRequest', JSON.stringify(existingRequest));
+        alert("Form submitted successfully")
         
     }
     
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FormControl >
-                <DatePicker 
-                    sx={FieldStyle} 
-                    label="Start date" 
-                    minDate={today} 
-                    value={startDate}
-                    onChange={handleStartDateChange}
-                    maxDate={endOfYearStartDate}
-                    format={"DD/MM/YY"}
-                    slotProps={{
-                        textField: {
-                            helperText: `DD/MM/YY`,
-                           
-                        },
-                    }}
-                    required/>
-                <CustomNumberInput 
-                    sx={FieldStyle}  
-                    label="Vacation days"
-                    newValue={vacationDays}
-                    onChange={handleVacationDaysChange}
-                    maxValue={MAX_VACATION_DAYS}
-                    required/>
-                    
-                <DatePicker
-                    
-                    sx={FieldStyle}
-                    label="End date" 
-                    minDate={nextDayAfterStartDay}
-                    value={endDate}
-                    maxDate={maxEndDay}
-                    onChange={handleEndDateChange}
-                    format={"DD/MM/YY"}
-                    slotProps={{
-                        textField: {
-                            helperText: `DD/MM/YY`,
-                        },
-                    }}
-                    required/>
-                <TextField 
-                    multiline
-                    rows={5} 
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    variant="outlined"
-                    label="Comment"
-                    helperText="Please leave your comments or suggestions."
-                    sx={FieldStyle}
-                   />
-                <CustomButton name="Submit" onClick={handleSubmit} isError={isErrorInDates} variant="outlined" startIcon={<BeachAccessIcon/>} endIcon={<KiteSurfingIcon/>}/>
-                
-            </FormControl>
-            
+            <form onSubmit={handleSubmit}>
+                <FormControl >
+                    <DatePicker
+                        sx={FieldStyle}
+                        label="Start date"
+                        minDate={today}
+                        value={startDate}
+                        onChange={handleStartDateChange}
+                        maxDate={endOfYearStartDate}
+                        format={"DD/MM/YY"}
+                        slotProps={{
+                            textField: {
+                                helperText: `DD/MM/YY`,
+
+                            },
+                        }}
+                        required/>
+                    <CustomNumberInput
+                        sx={FieldStyle}
+                        label="Vacation days"
+                        newValue={vacationDays}
+                        onChange={handleVacationDaysChange}
+                        maxValue={MAX_VACATION_DAYS}
+                        required/>
+
+                    <DatePicker
+
+                        sx={FieldStyle}
+                        label="End date"
+                        minDate={nextDayAfterStartDay}
+                        value={endDate}
+                        maxDate={maxEndDay}
+                        onChange={handleEndDateChange}
+                        format={"DD/MM/YY"}
+                        slotProps={{
+                            textField: {
+                                helperText: `DD/MM/YY`,
+                            },
+                        }}
+                        required/>
+                    <TextField
+                        multiline
+                        rows={5}
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        variant="outlined"
+                        label="Comment"
+                        helperText="Please leave your comments or suggestions."
+                        sx={FieldStyle}
+                    />
+                    <CustomButton type="submit" name="Submit" onClick={handleSubmit} isError={isErrorInDates} variant="outlined" startIcon={<BeachAccessIcon/>} endIcon={<KiteSurfingIcon/>}/>
+
+                </FormControl>
+            </form>
         </LocalizationProvider>
     )
 }
