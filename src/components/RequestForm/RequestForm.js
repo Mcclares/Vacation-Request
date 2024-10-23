@@ -17,9 +17,10 @@ export default function RequestForm() {
     const today = dayjs();
     const tomorrow = today.add(1,'day');
     
-    
     const endOfYearEndDate = today.endOf('year');
     const endOfYearStartDate = today.endOf('year').subtract(1,'day');
+    
+    const [isError, setIsError] = useState(Boolean);
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
@@ -167,7 +168,7 @@ export default function RequestForm() {
                     helperText="Please leave your comments or suggestions."
                     sx={FieldStyle}
                    />
-                <CustomButton name="Submit" onClick={handleSubmit}/>
+                <CustomButton name="Submit" onClick={handleSubmit} isValid={true}/>
                 
             </FormControl>
             
