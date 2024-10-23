@@ -41,7 +41,7 @@ export default function RequestForm() {
                 clearTimeout(timeoutRef.current);
             }
         }
-    })
+    },[])
 
     useEffect(() => {
         if(endDate && endDate.isAfter(startDate,'day')) {
@@ -97,7 +97,8 @@ export default function RequestForm() {
     const handleVacationDaysChange = (days) => {
         if (!isNaN(days)) {
             setEndDate(startDate.add(days, 'day'));
-            setVacationDays(days); 
+            setVacationDays(days);
+            setMaxEndDay(maxEndDay);
         }
     };
     const handleSubmit = () => {
