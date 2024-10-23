@@ -111,6 +111,7 @@ export default function RequestForm() {
         }
     };
     const handleSubmit = (event) => {
+        console.log(event.type);
         event.preventDefault()
         if (!isErrorInDates) {
         
