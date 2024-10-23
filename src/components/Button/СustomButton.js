@@ -1,6 +1,6 @@
 ﻿import {Button as MuiButton} from "@mui/material";
 import {customButtonCommonStyle} from "./CustomButtonStyles";
-export default function CustomButton({name,clickEvent,variant,customStyle, isError, startIcon, endIcon}) {
+export default function CustomButton({name,clickEvent,variant,customStyle, isError, startIcon, endIcon,type}) {
     return(
         <MuiButton 
             style={customStyle?.props || customButtonCommonStyle}  
@@ -9,7 +9,8 @@ export default function CustomButton({name,clickEvent,variant,customStyle, isErr
             disabled={isError}
             color="#8E8D8A"
             startIcon={startIcon}
-            endIcon={endIcon}>
+            endIcon={endIcon}
+            type={type}>
             {name}
         </MuiButton>
     )
