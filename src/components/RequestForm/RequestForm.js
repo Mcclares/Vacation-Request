@@ -1,4 +1,5 @@
 ﻿import {useEffect, useRef, useState} from "react";
+import {HandleNavigation} from "../../utils/HandleNavigation";
 import {FormControl, InputLabel, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {LocalizationProvider} from "@mui/x-date-pickers";
@@ -9,6 +10,7 @@ import dayjs from "dayjs";
 import CustomButton from "../Button/СustomButton";
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
+import {Alert} from "@mui/material";
 
 import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 import useCalculateEndDate from "../../hooks/useCalculateEndDate";
@@ -17,6 +19,8 @@ const MAX_VACATION_DAYS = 28;
 
 export default function RequestForm() {
 
+    const goToPage = HandleNavigation();
+    
     const today = dayjs();
     const tomorrow = today.add(1,'day');
     
@@ -126,7 +130,9 @@ export default function RequestForm() {
             existingRequest.push(formData);
             console.log(existingRequest);
             localStorage.setItem('vacationRequests', JSON.stringify(existingRequest));
-            alert("Form submitted successfully")
+            alert("Form submitted successfully");
+            goToPage("/");
+            
         }else {
             alert("Error: Invalid date selection.");
         }
