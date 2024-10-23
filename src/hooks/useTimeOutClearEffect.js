@@ -1,6 +1,6 @@
 ﻿import {useEffect} from "react";
 
-export const UseTimeOutClearEffect = (timeOutRef) => {
+export const useTimeOutClearEffect = (timeOutRef) => {
     useEffect(() => {
         return () => {
             if(timeOutRef.current) {
