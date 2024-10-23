@@ -110,9 +110,9 @@ export default function RequestForm() {
             setMaxEndDay(maxEndDay);
         }
     };
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault()
         const requestId = Date.now();
-        
         const formData = {
             id: requestId,
             startDate: startDate.format("DD/MM/YYYY"),
