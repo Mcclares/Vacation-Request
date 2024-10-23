@@ -112,17 +112,22 @@ export default function RequestForm() {
     };
     const handleSubmit = (event) => {
         event.preventDefault()
-        const requestId = Date.now();
-        const formData = {
-            id: requestId,
-            startDate: startDate.format("DD/MM/YYYY"),
-            vacationDays: vacationDays,
-            endDate: endDate.format("DD/MM/YYYY")
+        if (!isErrorInDates) {
+        
+            const requestId = Date.now();
+            const formData = {
+                id: requestId,
+                startDate: startDate.format("DD/MM/YYYY"),
+                vacationDays: vacationDays,
+                endDate: endDate.format("DD/MM/YYYY")
+            }
+            const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
+            existingRequest.push(formData);
+            localStorage.setItem('vacationRequest', JSON.stringify(existingRequest));
+            alert("Form submitted successfully")
+        }else {
+            alert("Error: Invalid date selection.");
         }
-        const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
-        existingRequest.push(formData);
-        localStorage.setItem('vacationRequest', JSON.stringify(existingRequest));
-        alert("Form submitted successfully")
         
     }
     
