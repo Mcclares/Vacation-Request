@@ -1,26 +1,29 @@
 ﻿import {useEffect, useRef, useState} from "react";
 import dayjs from "dayjs";
 
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
+
 import {FormControl, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
+
 import {FieldStyle} from "./RequestFormStyle";
 
 import CustomButton from "../Button/СustomButton";
-
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
-import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
+import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 
 import {useAlert} from "../../hooks/useAlert";
-import {handleNavigation} from "../../utils/handleNavigation";
 import {useTimeOutClearEffect} from "../../hooks/useTimeOutClearEffect";
 import {useVacationDateLogic} from "../../hooks/useVacationDateLogic";
 
+import {handleNavigation} from "../../utils/handleNavigation";
 import {handleStartDateChange} from "../../utils/handleStartDateChange";
 import {handleEndDateChange} from "../../utils/handleEndDateChange";
 import {handleVacationDaysChange} from "../../utils/handleVacationDaysChange";
+
+import postRequest from "../../api/postRequest";
 
 const MAX_VACATION_DAYS = 28;
 
@@ -52,24 +55,12 @@ export default function RequestForm() {
     
     useTimeOutClearEffect(timeoutRef);
     useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, setIsErrorInDates);
-
-    
     
     const handleSubmit = (event) => {
         event.preventDefault()
         if (!isErrorInDates) {
-
-            const requestId = Date.now();
-            const formData = {
-                id: requestId,
-                startDate: startDate.format("DD/MM/YYYY"),
-                vacationDays: vacationDays,
-                endDate: endDate.format("DD/MM/YYYY")
-            }
-            const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
-            existingRequest.push(formData);
-            console.log(existingRequest);
-            localStorage.setItem('vacationRequests', JSON.stringify(existingRequest));
+            
+            postRequest(startDate,vacationDays,endDate);
             
             showAlert("Form submitted successfully", "success");
             
