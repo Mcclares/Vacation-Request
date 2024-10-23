@@ -7,6 +7,9 @@ import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 import {FieldStyle} from "./RequestFormStyle";
 import dayjs from "dayjs";
 import CustomButton from "../Button/СustomButton";
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
+
 import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 import useCalculateEndDate from "../../hooks/useCalculateEndDate";
 
@@ -173,7 +176,7 @@ export default function RequestForm() {
                     helperText="Please leave your comments or suggestions."
                     sx={FieldStyle}
                    />
-                <CustomButton name="Submit" onClick={handleSubmit} isError={isErrorInDates}/>
+                <CustomButton name="Submit" onClick={handleSubmit} isError={isErrorInDates} variant="outlined" startIcon={<BeachAccessIcon/>} endIcon={<KiteSurfingIcon/>}/>
                 
             </FormControl>
             
