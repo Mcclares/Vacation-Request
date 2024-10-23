@@ -14,9 +14,13 @@ import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
 
 import {useAlert} from "../../hooks/useAlert";
-import {HandleNavigation} from "../../utils/HandleNavigation";
+import {handleNavigation} from "../../utils/handleNavigation";
 import {useTimeOutClearEffect} from "../../hooks/useTimeOutClearEffect";
 import {useVacationDateLogic} from "../../hooks/useVacationDateLogic";
+
+import {handleStartDateChange} from "../../utils/handleStartDateChange";
+import {handleEndDateChange} from "../../utils/handleEndDateChange";
+import {handleVacationDaysChange} from "../../utils/handleVacationDaysChange";
 
 const MAX_VACATION_DAYS = 28;
 
@@ -24,8 +28,7 @@ export default function RequestForm() {
 
     const showAlert = useAlert();
     
-    
-    const goToPage = HandleNavigation();
+    const goToPage = handleNavigation();
     
     const today = dayjs();
     const tomorrow = today.add(1,'day');
@@ -51,51 +54,6 @@ export default function RequestForm() {
     useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, setIsErrorInDates);
 
     
-    const handleStartDateChange = (newDate) => {
-        const newStartDate = newDate ? dayjs(newDate) : null;
-        
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-        
-        timeoutRef.current = setTimeout(() => {
-            if (newStartDate && newStartDate.isAfter(today, 'day') && newStartDate.isBefore(endOfYearStartDate, 'day')) {
-                setStartDate(newStartDate);
-                
-                const potentialMaxEndDate = newStartDate.add(MAX_VACATION_DAYS, 'day');
-                const maxEndDate = potentialMaxEndDate.isAfter(endOfYearEndDate) ? endOfYearEndDate : potentialMaxEndDate;
-                setMaxEndDay(maxEndDate)
-                setEndDate(newStartDate.add(vacationDays, 'day'));
-                setIsErrorInDates(false);
-                
-            } else if (newStartDate) {
-                setStartDate(today);
-                setVacationDays(1);
-                setEndDate(tomorrow);
-                setMaxEndDay(endOfYearEndDate);
-                setIsErrorInDates(false);
-            }
-        }, 500);
-        
-    }
-    
-    const handleEndDateChange = (newDate) => {
-        const newEndDate = newDate ? dayjs(newDate) : null;
-        if(newEndDate && newEndDate.isAfter(startDate, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
-            setEndDate(newEndDate);
-        }else {
-            setIsErrorInDates(true);
-        }
-    }
-    
-    
-    const handleVacationDaysChange = (days) => {
-        if (!isNaN(days)) {
-            setEndDate(startDate.add(days, 'day'));
-            setVacationDays(days);
-            setMaxEndDay(maxEndDay);
-        }
-    };
     
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -132,7 +90,23 @@ export default function RequestForm() {
                         label="Start date"
                         minDate={today}
                         value={startDate}
-                        onChange={handleStartDateChange}
+                        onChange={(newDate) => {
+                            handleStartDateChange(
+                                newDate,
+                                today,
+                                endOfYearStartDate,
+                                endOfYearEndDate,
+                                MAX_VACATION_DAYS,
+                                vacationDays,
+                                setVacationDays,
+                                timeoutRef,
+                                setStartDate,
+                                setEndDate,
+                                setMaxEndDay,
+                                setIsErrorInDates,
+                                tomorrow
+                            )
+                        }}
                         maxDate={endOfYearStartDate}
                         format={"DD/MM/YY"}
                         slotProps={{
@@ -146,7 +120,16 @@ export default function RequestForm() {
                         sx={FieldStyle}
                         label="Vacation days"
                         newValue={vacationDays}
-                        onChange={handleVacationDaysChange}
+                        onChange={(days) => {
+                            handleVacationDaysChange(
+                                days,
+                                startDate,
+                                setEndDate,
+                                setVacationDays,
+                                maxEndDay,
+                                setMaxEndDay
+                            )
+                        }}
                         maxValue={MAX_VACATION_DAYS}
                         required/>
 
@@ -157,7 +140,15 @@ export default function RequestForm() {
                         minDate={nextDayAfterStartDay}
                         value={endDate}
                         maxDate={maxEndDay}
-                        onChange={handleEndDateChange}
+                        onChange={(newDate)=> {
+                            handleEndDateChange(
+                                newDate,
+                                startDate,
+                                endOfYearEndDate,
+                                setEndDate,
+                                setIsErrorInDates
+                            )
+                        } }
                         format={"DD/MM/YY"}
                         slotProps={{
                             textField: {
