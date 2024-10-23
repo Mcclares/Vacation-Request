@@ -20,7 +20,7 @@ export default function RequestForm() {
     const endOfYearEndDate = today.endOf('year');
     const endOfYearStartDate = today.endOf('year').subtract(1,'day');
     
-    const [isError, setIsError] = useState(Boolean);
+    const [isErrorInDates, setIsErrorInDates] = useState(false);
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
@@ -48,6 +48,7 @@ export default function RequestForm() {
         if(endDate && endDate.isAfter(startDate,'day')) {
             const daysDiff = endDate.diff(startDate, 'day');
             setVacationDays(daysDiff);
+            setIsErrorInDates(false);
         }
 
     }, [endDate, startDate])
@@ -56,6 +57,7 @@ export default function RequestForm() {
         if(startDate && vacationDays) {
             const calculatedEndDate = startDate.add(vacationDays, 'day');
             setEndDate(calculatedEndDate)
+            setIsErrorInDates(false);
         }
     },[startDate,vacationDays])
 
@@ -75,12 +77,14 @@ export default function RequestForm() {
                 const maxEndDate = potentialMaxEndDate.isAfter(endOfYearEndDate) ? endOfYearEndDate : potentialMaxEndDate;
                 setMaxEndDay(maxEndDate)
                 setEndDate(newStartDate.add(vacationDays, 'day'));
+                setIsErrorInDates(false);
                 
             } else if (newStartDate) {
                 setStartDate(today);
                 setVacationDays(1);
                 setEndDate(tomorrow);
                 setMaxEndDay(endOfYearEndDate);
+                setIsErrorInDates(false);
             }
         }, 1500);
         
@@ -90,7 +94,8 @@ export default function RequestForm() {
         const newEndDate = newDate ? dayjs(newDate) : null;
         if(newEndDate && newEndDate.isAfter(startDate, 'day') && newEndDate.isBefore(endOfYearEndDate, 'day')) {
             setEndDate(newEndDate);
-           
+        }else {
+            setIsErrorInDates(true);
         }
     }
     
@@ -168,7 +173,7 @@ export default function RequestForm() {
                     helperText="Please leave your comments or suggestions."
                     sx={FieldStyle}
                    />
-                <CustomButton name="Submit" onClick={handleSubmit} isValid={true}/>
+                <CustomButton name="Submit" onClick={handleSubmit} isError={isErrorInDates}/>
                 
             </FormControl>
             
