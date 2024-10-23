@@ -10,7 +10,8 @@ import dayjs from "dayjs";
 import CustomButton from "../Button/СustomButton";
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
-import {Alert} from "@mui/material";
+
+import {Alert, Snackbar} from "@mui/material";
 
 import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
 import useCalculateEndDate from "../../hooks/useCalculateEndDate";
@@ -19,6 +20,12 @@ const MAX_VACATION_DAYS = 28;
 
 export default function RequestForm() {
 
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('success');
+    
+    
+    
     const goToPage = HandleNavigation();
     
     const today = dayjs();
