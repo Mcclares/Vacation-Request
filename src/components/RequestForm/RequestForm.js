@@ -89,7 +89,7 @@ export default function RequestForm() {
                 setMaxEndDay(endOfYearEndDate);
                 setIsErrorInDates(false);
             }
-        }, 1500);
+        }, 500);
         
     }
     
@@ -123,7 +123,8 @@ export default function RequestForm() {
             }
             const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
             existingRequest.push(formData);
-            localStorage.setItem('vacationRequest', JSON.stringify(existingRequest));
+            console.log(existingRequest);
+            localStorage.setItem('vacationRequests', JSON.stringify(existingRequest));
             alert("Form submitted successfully")
         }else {
             alert("Error: Invalid date selection.");
