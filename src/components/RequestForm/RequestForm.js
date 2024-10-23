@@ -1,33 +1,26 @@
 ﻿import {useEffect, useRef, useState} from "react";
-import {HandleNavigation} from "../../utils/HandleNavigation";
-import {FormControl, InputLabel, TextField} from "@mui/material";
+import dayjs from "dayjs";
+
+import {FormControl, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 import {FieldStyle} from "./RequestFormStyle";
-import dayjs from "dayjs";
+
 import CustomButton from "../Button/СustomButton";
+
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
 
 import {useAlert} from "../../hooks/useAlert";
-import {Collapse} from "@mui/material";
-import {Alert, Snackbar} from "@mui/material";
-
-import useCalculateVacationDays from "../../hooks/useCalculateVacationDays";
-import useCalculateEndDate from "../../hooks/useCalculateEndDate";
+import {HandleNavigation} from "../../utils/HandleNavigation";
 
 const MAX_VACATION_DAYS = 28;
 
 export default function RequestForm() {
 
     const showAlert = useAlert();
-    
-    const [openAlertMessage, setOpenAlertMessage] = useState(false);
-    const [alertMessage, setAlertMessage] = useState('');
-    const [alertSeverity, setAlertSeverity] = useState('success');
-    
     
     
     const goToPage = HandleNavigation();
@@ -48,8 +41,6 @@ export default function RequestForm() {
     
     const [comment, setComment] = useState('');
     
-    // const remainingDaysInYear = endOfYearEndDate.diff(startDate, 'day')
-    // const maxVacationDays = Math.min(MAX_VACATION_DAYS, remainingDaysInYear)
     const [maxEndDay, setMaxEndDay] = useState(startDate.add(MAX_VACATION_DAYS, 'day'));
     
     const timeoutRef = useRef(null);
@@ -142,20 +133,12 @@ export default function RequestForm() {
             console.log(existingRequest);
             localStorage.setItem('vacationRequests', JSON.stringify(existingRequest));
             
-            showAlert("Form submitted successfully","success");
-            setAlertMessage("Form submitted successfully");
-            setAlertSeverity("success");
-            setOpenAlertMessage(true);
-            console.log(openAlertMessage);
-            console.log(alertMessage);
-            console.log(alertSeverity);
-
+            showAlert("Form submitted successfully", "success");
+            
             goToPage("/");
 
         }else {
-            setAlertMessage("Error: Invalid date selection");
-            setAlertSeverity("error");
-            setOpenAlertMessage(true);
+            showAlert("Error: Invalid date selection", "error")
         }
 
     }
@@ -216,20 +199,7 @@ export default function RequestForm() {
 
                 </FormControl>
             </form>
-            {/* Snackbar для отображения Alert */}
-            <Snackbar
-                open={openAlertMessage}
-                autoHideDuration={6000}  // Snackbar автоматически закрывается через 6 секунд
-                onClose={() => setOpenAlertMessage(false)}  // Закрываем Snackbar вручную
-            >
-                <Alert
-                    onClose={() => setOpenAlertMessage(false)}
-                    severity={alertSeverity}
-                    sx={{ width: '100%' }}
-                >
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
+
         </LocalizationProvider>
     )
 }
