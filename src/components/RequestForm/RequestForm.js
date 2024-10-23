@@ -135,7 +135,7 @@ export default function RequestForm() {
                             handleEndDateChange(
                                 newDate,
                                 startDate,
-                                endOfYearEndDate,
+                                maxEndDay,
                                 setEndDate,
                                 setIsErrorInDates
                             )
