@@ -15,6 +15,7 @@ import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
 
 import {useAlert} from "../../hooks/useAlert";
 import {HandleNavigation} from "../../utils/HandleNavigation";
+import {useTimeOutClearEffect} from "../../hooks/useTimeOutClearEffect";
 
 const MAX_VACATION_DAYS = 28;
 
@@ -45,14 +46,8 @@ export default function RequestForm() {
     
     const timeoutRef = useRef(null);
     
-    useEffect(() => {
-        return () => {
-            if(timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        }
-    },[])
-
+    useTimeOutClearEffect(timeoutRef);
+    
     useEffect(() => {
         if(endDate && endDate.isAfter(startDate,'day')) {
             const daysDiff = endDate.diff(startDate, 'day');
