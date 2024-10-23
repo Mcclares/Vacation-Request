@@ -1,7 +1,7 @@
 ﻿import VacationList from "../../components/VacationList/VacationList";
 import "./IndexPage.css";
 import CustomButton from "../../components/Button/СustomButton";
-import {handleNavigation} from "../../utils/HandleNavigation";
+import {handleNavigation} from "../../utils/handleNavigation";
 
 
 export default function IndexPage() {
