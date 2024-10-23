@@ -21,10 +21,11 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
                     incrementButton: {
                         children: <AddIcon fontSize="small" />,
                         className: 'increment',
-                     
+                        type: 'button'
                     },
                     decrementButton: {
                         children: <RemoveIcon fontSize="small" />,
+                        type: 'button'
                     },
                 }}
                 {...props}
@@ -43,7 +44,6 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
     },[newValue])
     
     const handleChange = (event, val) => {
-       
         setValue(val);
         if (onChange) {
             onChange(val);
