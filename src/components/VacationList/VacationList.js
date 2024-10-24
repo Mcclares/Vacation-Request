@@ -4,6 +4,7 @@ import {tableHeader, table,tableCell, commentModalText, modalStyle} from "./Vaca
 import getRequests from "../../api/getRequests";
 import { TableVirtuoso } from 'react-virtuoso';
 import './VacationList.css';
+import {getCursorStyle} from "../../utils/helpers";
 
 const columns = [
     { width: 100, label: 'Start Date', dataKey: 'startDate' },
@@ -81,7 +82,6 @@ export default function VacationList() {
         );
     }
     
-    
     return (
         <Paper style={{ height: 400, width: '60%', }}>
             <TableVirtuoso
@@ -107,12 +107,3 @@ export default function VacationList() {
         </Paper>
     );
 }
-function getCursorStyle(column, row) {
-    const cellValue = row[column.dataKey];
-    if(column.dataKey === 'comment' && cellValue && cellValue.trim() !== '') {
-        return 'pointer';
-        
-    }
-    return 'default';
-}
-
