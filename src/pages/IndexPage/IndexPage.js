@@ -1,6 +1,6 @@
 ﻿import VacationList from "../../components/VacationList/VacationList";
 import "./IndexPage.css";
-import CustomButton from "../../components/Button/СustomButton";
+import CustomButton from "../../components/CustomButton/CustomButton";
 import {useNavigation} from "../../hooks/useNavigation";
 import {Typography} from "@mui/material";
 

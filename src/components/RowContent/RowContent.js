@@ -1,5 +1,5 @@
 ﻿import {TableCell} from "@mui/material";
-import {tableCellStyle} from "../VacationList/VacationListStyles";
+import {tableCellStyle} from "./RowContentStyle";
 import {getCursorStyle} from "../../utils/helpers";
 import {columns} from "../columnsConfig";
 import React from "react";

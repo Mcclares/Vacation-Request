@@ -1,6 +1,6 @@
 ﻿import {columns} from "../columnsConfig";
 import {TableRow, TableCell} from "@mui/material";
-import {tableHeaderStyle} from "../VacationList/VacationListStyles";
+import {tableHeaderStyle} from "./FixedHeaderContentStyle";
 
 export function fixedHeaderContent() {
     return (

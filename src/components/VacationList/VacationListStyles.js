@@ -1,18 +1,4 @@
-﻿export const tableHeaderStyle = {
-    fontSize: "16px",
-    backgroundColor: '#d6d2c7', 
-    fontWeight:'bold'
-  
-    
-}
-export const tableCellStyle = {
-    whiteSpace: 'nowrap',
-    overflow:'hidden',
-    textOverflow: 'ellipsis',
-    maxWidth: '10px',
-    fontSize: '16px'
-}
-export const tableStyle = {
+﻿export const tableStyle = {
     borderCollapse: 'separate', 
     tableLayout: 'fixed'
      
@@ -37,3 +23,11 @@ export const modalStyle = {
     p: 4,
     color: 'white'
 };
+
+export const paperStyle = {
+    height: 400, 
+    width: '60%',
+}
+export const tableVirtuosoStyle = {
+    backgroundColor: "#EAE7DC"
+} 

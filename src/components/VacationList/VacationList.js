@@ -1,7 +1,7 @@
 ﻿import {Box, Modal, Paper, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {commentModalTextStyle, modalStyle} from "./VacationListStyles";
-import getRequests from "../../api/api";
+import {commentModalTextStyle, modalStyle, paperStyle,tableVirtuosoStyle} from "./VacationListStyles";
+import getRequests from "../../api/getRequest";
 import {TableVirtuoso} from 'react-virtuoso';
 import './VacationList.css';
 import {fixedHeaderContent} from "../FixedHeaderContent/FixedHeaderContent";
@@ -27,13 +27,13 @@ export default function VacationList() {
     }
     
     return (
-        <Paper style={{ height: 400, width: '60%', }}>
+        <Paper style={paperStyle}>
             <TableVirtuoso
                 data={requests}
                 components={VirtuosoTableComponents}
                 fixedHeaderContent={fixedHeaderContent}
                 itemContent={(_index, row) => rowContent(handleCommentClick, row)}
-                sx={{backgroundColor: "#EAE7DC"}}
+                sx={tableVirtuosoStyle}
             />
             <Modal
                 open={openModal}
