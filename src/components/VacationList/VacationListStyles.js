@@ -6,12 +6,20 @@
     
 }
 export const tableCell = {
-    textAlign: 'center',
-    padding: '8px',
-    borderBottom: '1px solid #ddd'
+    whiteSpace: 'nowrap',
+    overflow:'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '10px'
 }
 export const table = {
     borderCollapse: 'separate', 
     tableLayout: 'fixed'
      
+}
+
+export const commentModalText = {
+    wordWrap: 'break-word', 
+    maxWidth: '100%', 
+    whiteSpace: 'normal',
+    mt: 2
 }

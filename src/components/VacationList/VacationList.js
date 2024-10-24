@@ -1,7 +1,7 @@
 ﻿import {Table, TableHead, TableCell, TableBody, Modal, Typography, Box} from "@mui/material";
 import {TableRow} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {tableHeader, table,tableCell} from "./VacationListStyles";
+import {tableHeader, table,tableCell, commentModalText} from "./VacationListStyles";
 import getRequests from "../../api/getRequests";
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
@@ -9,27 +9,10 @@ import { TableVirtuoso } from 'react-virtuoso';
 import './VacationList.css';
 
 const columns = [
-    {
-        width: 100,
-        label: 'Start Date',
-        dataKey: 'startDate',
-    },
-    {
-        width: 100,
-        label: 'Vacation Days',
-        dataKey: 'vacationDays',
-        numeric: true,
-    },
-    {
-        width: 100,
-        label: 'End Date',
-        dataKey: 'endDate',
-    },
-    {
-        width: 200,
-        label: 'Comment',
-        dataKey: 'comment',
-    },
+    { width: 100, label: 'Start Date', dataKey: 'startDate' },
+    { width: 100, label: 'Vacation Days', dataKey: 'vacationDays', numeric: true },
+    { width: 100, label: 'End Date', dataKey: 'endDate' },
+    { width: 200, label: 'Comment', dataKey: 'comment' }
 ];
 
 
@@ -92,8 +75,9 @@ export default function VacationList() {
                     <TableCell
                         key={column.dataKey}
                         align={column.numeric || false ? 'right' : 'left'}
-                        onClick={column.dataKey === 'comment' ? () => handleCommentClick(row[column.dataKey]) : null}
-                        style={{ cursor: column.dataKey === 'comment' ? 'pointer': 'default'}}
+                        onClick={column.dataKey === 'comment' && row[column.dataKey] && row[column.dataKey].trim() !== '' ? () => handleCommentClick(row[column.dataKey]) : null}
+                        style={{cursor : getCursorStyle(column,row)}}
+                        sx={tableCell}
                     >
                         {row[column.dataKey]}
                     </TableCell>
@@ -119,7 +103,7 @@ export default function VacationList() {
                 aria-describedby="modal-comment-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-comment-description" sx={{ mt: 2 }}>
+                    <Typography id="modal-comment-description" sx={commentModalText}>
                         {selectedComment}
                     </Typography>
                 </Box>
@@ -139,5 +123,13 @@ const style = {
     boxShadow: 24,
     p: 4,
     color: 'white'
-};
+}
+function getCursorStyle(column, row) {
+    const cellValue = row[column.dataKey];
+    if(column.dataKey === 'comment' && cellValue && cellValue.trim() !== '') {
+        return 'pointer';
+        
+    }
+    return 'default';
+}
 
