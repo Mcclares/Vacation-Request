@@ -52,7 +52,7 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            const currentValue = event.target.value;
+            const currentValue = parseInt(event.target.value);
             setValue(currentValue);
             if (onChange) {
                 onChange(currentValue);
