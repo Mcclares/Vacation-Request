@@ -1,67 +1,49 @@
-﻿import {useEffect, useRef, useState} from "react";
+﻿import {useRef, useState} from "react";
 import dayjs from "dayjs";
-
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import KiteSurfingIcon from '@mui/icons-material/Kitesurfing';
-
 import {FormControl, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-
 import {FieldStyle} from "./RequestFormStyle";
-
 import CustomButton from "../Button/СustomButton";
 import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
-
 import {useAlert} from "../../hooks/useAlert";
 import {useTimeOutClearEffect} from "../../hooks/useTimeOutClearEffect";
 import {useVacationDateLogic} from "../../hooks/useVacationDateLogic";
-
 import {handleNavigation} from "../../utils/handleNavigation";
 import {handleStartDateChange} from "../../utils/handleStartDateChange";
 import {handleEndDateChange} from "../../utils/handleEndDateChange";
 import {handleVacationDaysChange} from "../../utils/handleVacationDaysChange";
-
 import postRequest from "../../api/postRequest";
-
 const MAX_VACATION_DAYS = 28;
 
 export default function RequestForm() {
-    
     const today = dayjs();
     const tomorrow = today.add(1,'day');
     
     const endOfYear = today.endOf('year');
-    const [maxVacationDays,setMaxVacationDays] = useState(MAX_VACATION_DAYS);
+    const secondToLastDayOfYear = endOfYear.subtract(1, 'day');
     
     const [startDate, setStartDate] = useState(today);
+    const nextDayAfterStartDate = startDate.add(1, 'day');
+    
     const [vacationDays, setVacationDays] = useState(1);
     const [endDate,setEndDate] = useState(tomorrow);
     const [maxEndDay, setMaxEndDay] = useState(startDate.add(MAX_VACATION_DAYS, 'day'));
-    
-    const nextDayAfterStartDay = startDate.add(1,'day');
-    
     const [comment, setComment] = useState('');
-    
     const [maxDayCustomInput,setMaxDayCustomInput] = useState(MAX_VACATION_DAYS);
     const [isErrorInDates, setIsErrorInDates] = useState(false);
+    
     const timeoutRef = useRef(null);
 
     const showAlert = useAlert();
     const goToPage = handleNavigation();
     
     useTimeOutClearEffect(timeoutRef);
-    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayCustomInput, MAX_VACATION_DAYS);
+    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayCustomInput,setMaxEndDay, MAX_VACATION_DAYS);
 
-    useEffect(() => {
-        const potentialMaxEndDate = startDate.add(MAX_VACATION_DAYS, 'day');
-        const calculatedMaxEndDay = potentialMaxEndDate.isAfter(endOfYear)
-            ? endOfYear : potentialMaxEndDate;
-        setMaxEndDay(calculatedMaxEndDay);
-    }, [startDate]);
-    
-    
     
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -99,7 +81,7 @@ export default function RequestForm() {
                               
                             )
                         }}
-                        maxDate={endOfYear}
+                        maxDate={secondToLastDayOfYear}
                         format={"DD/MM/YY"}
                         slotProps={{
                             textField: {
@@ -126,7 +108,7 @@ export default function RequestForm() {
                     <DatePicker
                         sx={FieldStyle}
                         label="End date"
-                        minDate={startDate.add(1,'day')}
+                        minDate={nextDayAfterStartDate}
                         value={endDate}
                         defaultValue={tomorrow}
                         maxDate={maxEndDay}
