@@ -1,5 +1,5 @@
 ﻿import {useNavigate} from 'react-router-dom';
-export function handleNavigation() {
+export function useNavigation() {
    const navigate = useNavigate();
    const goToPage = (path) => {
       navigate(path)

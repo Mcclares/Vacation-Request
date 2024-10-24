@@ -12,12 +12,14 @@ import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 import {useAlert} from "../../hooks/useAlert";
 import {useTimeOutClearEffect} from "../../hooks/useTimeOutClearEffect";
 import {useVacationDateLogic} from "../../hooks/useVacationDateLogic";
-import {handleNavigation} from "../../utils/handleNavigation";
+import {useNavigation} from "../../hooks/useNavigation";
 import {handleStartDateChange} from "../../utils/handleStartDateChange";
 import {handleEndDateChange} from "../../utils/handleEndDateChange";
 import {handleVacationDaysChange} from "../../utils/handleVacationDaysChange";
 import postRequest from "../../api/postRequest";
-const MAX_VACATION_DAYS = 28;
+
+
+const MAX_VACATION_DAYS = 27;
 
 export default function RequestForm() {
     const today = dayjs();
@@ -33,21 +35,21 @@ export default function RequestForm() {
     const [endDate,setEndDate] = useState(tomorrow);
     const [maxEndDay, setMaxEndDay] = useState(startDate.add(MAX_VACATION_DAYS, 'day'));
     const [comment, setComment] = useState('');
-    const [maxDayCustomInput,setMaxDayCustomInput] = useState(MAX_VACATION_DAYS);
-    const [isErrorInDates, setIsErrorInDates] = useState(false);
+    const [maxValueCustomInput,setMaxValueCustomInput] = useState(MAX_VACATION_DAYS);
+    const [isInvalidDate, setIsInvalidDate] = useState(false);
     
     const timeoutRef = useRef(null);
 
     const showAlert = useAlert();
-    const goToPage = handleNavigation();
+    const goToPage = useNavigation();
     
     useTimeOutClearEffect(timeoutRef);
-    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayCustomInput,setMaxEndDay, MAX_VACATION_DAYS);
+    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxValueCustomInput,setMaxEndDay,setIsInvalidDate, MAX_VACATION_DAYS);
 
     
     const handleSubmit = (event) => {
         event.preventDefault()
-        if (!isErrorInDates) {
+        if (!isInvalidDate) {
             
             postRequest(startDate,vacationDays,endDate,comment);
             showAlert("Form submitted successfully", "success");
@@ -73,6 +75,7 @@ export default function RequestForm() {
                             handleStartDateChange(
                                 newDate,
                                 today,
+                                vacationDays,
                                 endOfYear,
                                 setVacationDays,
                                 timeoutRef,
@@ -102,7 +105,7 @@ export default function RequestForm() {
                                 setVacationDays,
                             )
                         }}
-                        maxValue={maxDayCustomInput}
+                        maxValue={maxValueCustomInput}
                         required/>
 
                     <DatePicker
@@ -114,14 +117,11 @@ export default function RequestForm() {
                         maxDate={maxEndDay}
                         onChange={(newDate)=> {
                             handleEndDateChange(
-                                today,
                                 newDate,
                                 startDate,
-                                setStartDate,
                                 setEndDate,
-                                setIsErrorInDates,
-                                setVacationDays,
-                                timeoutRef,
+                                setIsInvalidDate,
+                                showAlert,
                                 MAX_VACATION_DAYS
                             )
                         } }
@@ -142,7 +142,7 @@ export default function RequestForm() {
                         helperText="Please leave your comments or suggestions."
                         sx={FieldStyle}
                     />
-                    <CustomButton type="submit" name="Submit" onClick={handleSubmit} isError={isErrorInDates} variant="outlined" startIcon={<BeachAccessIcon/>} endIcon={<KiteSurfingIcon/>}/>
+                    <CustomButton type="submit" name="Submit" onClick={handleSubmit} isError={isInvalidDate} variant="outlined" startIcon={<BeachAccessIcon/>} endIcon={<KiteSurfingIcon/>}/>
 
                 </FormControl>
             </form>
