@@ -54,7 +54,7 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
             <Typography style={LabelStyle}  variant="caption" component="label" htmlFor={inputId}>
                 {label}
             </Typography>
-            <NumberInput 
+            <NumberInput
                 id={inputId} 
                 aria-label="Number input field" 
                 min={1} 

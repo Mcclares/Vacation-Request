@@ -32,8 +32,8 @@ export default function RequestForm() {
     const today = dayjs();
     const tomorrow = today.add(1,'day');
     
-    const endOfYearEndDate = today.endOf('year');
-    const endOfYearStartDate = today.endOf('year').subtract(1,'day');
+    const endOfYear = today.endOf('year');
+    const [maxVacationDays,setMaxVacationDays] = useState(MAX_VACATION_DAYS);
     
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
@@ -44,7 +44,7 @@ export default function RequestForm() {
     
     const [comment, setComment] = useState('');
     
-
+    const [maxDayCustomInput,setMaxDayCustomInput] = useState(MAX_VACATION_DAYS);
     const [isErrorInDates, setIsErrorInDates] = useState(false);
     const timeoutRef = useRef(null);
 
@@ -52,13 +52,12 @@ export default function RequestForm() {
     const goToPage = handleNavigation();
     
     useTimeOutClearEffect(timeoutRef);
-    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, setIsErrorInDates);
+    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayCustomInput, MAX_VACATION_DAYS);
 
     useEffect(() => {
-        const intervalYear = startDate.add(1,'year');
         const potentialMaxEndDate = startDate.add(MAX_VACATION_DAYS, 'day');
-        const calculatedMaxEndDay = potentialMaxEndDate.isAfter(intervalYear)
-            ? intervalYear : potentialMaxEndDate;
+        const calculatedMaxEndDay = potentialMaxEndDate.isAfter(endOfYear)
+            ? endOfYear : potentialMaxEndDate;
         setMaxEndDay(calculatedMaxEndDay);
     }, [startDate]);
     
@@ -68,7 +67,7 @@ export default function RequestForm() {
         event.preventDefault()
         if (!isErrorInDates) {
             
-            postRequest(startDate,vacationDays,endDate);
+            postRequest(startDate,vacationDays,endDate,comment);
             showAlert("Form submitted successfully", "success");
             goToPage("/");
 
@@ -92,20 +91,15 @@ export default function RequestForm() {
                             handleStartDateChange(
                                 newDate,
                                 today,
-                                startDate.add(1,'year'),
-                                startDate.add(1,'year').subtract(1,'day'),
-                                MAX_VACATION_DAYS,
-                                vacationDays,
+                                endOfYear,
                                 setVacationDays,
                                 timeoutRef,
                                 setStartDate,
                                 setEndDate,
-                                setMaxEndDay,
-                                setIsErrorInDates,
-                                tomorrow
+                              
                             )
                         }}
-                        maxDate={startDate.add(1,'year')}
+                        maxDate={endOfYear}
                         format={"DD/MM/YY"}
                         slotProps={{
                             textField: {
@@ -124,11 +118,9 @@ export default function RequestForm() {
                                 startDate,
                                 setEndDate,
                                 setVacationDays,
-                                maxEndDay,
-                                setMaxEndDay
                             )
                         }}
-                        maxValue={MAX_VACATION_DAYS}
+                        maxValue={maxDayCustomInput}
                         required/>
 
                     <DatePicker
@@ -140,11 +132,15 @@ export default function RequestForm() {
                         maxDate={maxEndDay}
                         onChange={(newDate)=> {
                             handleEndDateChange(
+                                today,
                                 newDate,
                                 startDate,
-                                maxEndDay,
+                                setStartDate,
                                 setEndDate,
-                                setIsErrorInDates
+                                setIsErrorInDates,
+                                setVacationDays,
+                                timeoutRef,
+                                MAX_VACATION_DAYS
                             )
                         } }
                         format={"DD/MM/YY"}
