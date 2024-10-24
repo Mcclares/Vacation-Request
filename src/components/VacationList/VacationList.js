@@ -1,10 +1,7 @@
-﻿import {Table, TableHead, TableCell, TableBody, Modal, Typography, Box} from "@mui/material";
-import {TableRow} from "@mui/material";
+﻿import {Table, TableHead, TableCell, TableBody, Modal, Typography, Box, TableRow , TableContainer, Paper} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {tableHeader, table,tableCell, commentModalText} from "./VacationListStyles";
+import {tableHeader, table,tableCell, commentModalText, modalStyle} from "./VacationListStyles";
 import getRequests from "../../api/getRequests";
-import TableContainer from '@mui/material/TableContainer';
-import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
 import './VacationList.css';
 
@@ -59,8 +56,6 @@ export default function VacationList() {
     },[])
     
     const handleCommentClick = (comment) => {
-        console.log("click");
-        console.log()
         setSelectedComment(comment);
         setOpenModal(true);
     }
@@ -102,7 +97,7 @@ export default function VacationList() {
                 aria-labelledby="modal-comment-title"
                 aria-describedby="modal-comment-description"
             >
-                <Box sx={style}>
+                <Box sx={modalStyle}>
                     <Typography id="modal-comment-description" sx={commentModalText}>
                         {selectedComment}
                     </Typography>
@@ -111,18 +106,6 @@ export default function VacationList() {
             </Modal>
         </Paper>
     );
-}
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    backgroundColor: '#262a2b',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-    color: 'white'
 }
 function getCursorStyle(column, row) {
     const cellValue = row[column.dataKey];
