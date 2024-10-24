@@ -49,6 +49,16 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
             onChange(val);
         }
     };
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const currentValue = event.target.value;
+            setValue(currentValue);
+            if (onChange) {
+                onChange(currentValue);
+            }
+        }
+    };
     return(
         <>
             <Typography style={LabelStyle}  variant="caption" component="label" htmlFor={inputId}>
@@ -61,6 +71,7 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
                 max={maxValue} 
                 onChange={handleChange}
                 value={value || 1}
+                onKeyDown={handleKeyDown}
                 
             />
             <FormHelperText>
