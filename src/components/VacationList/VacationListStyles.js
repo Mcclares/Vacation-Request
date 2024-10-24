@@ -9,7 +9,8 @@ export const tableCell = {
     whiteSpace: 'nowrap',
     overflow:'hidden',
     textOverflow: 'ellipsis',
-    maxWidth: '10px'
+    maxWidth: '10px',
+    fontSize: '16px'
 }
 export const table = {
     borderCollapse: 'separate', 
