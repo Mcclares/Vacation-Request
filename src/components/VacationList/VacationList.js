@@ -1,11 +1,9 @@
-﻿import {Table, TableHead, TableCell, TableBody, Modal, Typography, Box, TableRow , TableContainer, Paper} from "@mui/material";
+﻿import {Box, Modal, Paper, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import { tableStyle,tableCellStyle, commentModalTextStyle, modalStyle} from "./VacationListStyles";
-import getRequests from "../../api/getRequests";
-import { TableVirtuoso } from 'react-virtuoso';
+import {commentModalTextStyle, modalStyle} from "./VacationListStyles";
+import getRequests from "../../api/api";
+import {TableVirtuoso} from 'react-virtuoso';
 import './VacationList.css';
-import {getCursorStyle} from "../../utils/helpers";
-import {columns} from "../columnsConfig";
 import {fixedHeaderContent} from "../FixedHeaderContent/FixedHeaderContent";
 import {rowContent} from "../RowContent/RowContent";
 import {VirtuosoTableComponents} from "../VirtuosoTableComponents/VirtuosoTableComponents";

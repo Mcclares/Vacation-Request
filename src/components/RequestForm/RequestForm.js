@@ -13,10 +13,10 @@ import {useAlert} from "../../hooks/useAlert";
 import {useTimeOutClearEffect} from "../../hooks/useTimeOutClearEffect";
 import {useVacationDateLogic} from "../../hooks/useVacationDateLogic";
 import {useNavigation} from "../../hooks/useNavigation";
-import {handleStartDateChange} from "../../utils/handleStartDateChange";
-import {handleEndDateChange} from "../../utils/handleEndDateChange";
-import {handleVacationDaysChange} from "../../utils/handleVacationDaysChange";
-import postRequest from "../../api/postRequest";
+import {handleEndDateChange} from "../../utils/handleChangingDates";
+import {handleStartDateChange} from "../../utils/handleChangingDates";
+import {handleVacationDaysChange} from "../../utils/handleChangingDates";
+import postRequest from "../../api/api";
 
 
 const MAX_VACATION_DAYS = 27;
