@@ -1,9 +1,4 @@
-﻿export default function getRequests() {
-    const requests = JSON.parse(localStorage.getItem('vacationRequests')) || [];
-    return requests;
-}
-
-export default function postRequest(startDate, vacationDays, endDate, comment) {
+﻿export default function postRequest(startDate, vacationDays, endDate, comment) {
     const requestId = Date.now();
 
     const formData = {
