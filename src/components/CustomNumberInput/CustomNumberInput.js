@@ -75,7 +75,7 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
                 
             />
             <FormHelperText>
-                You can take 28 days of paid vacation.
+                You can take 28 days of paid vacation(first day is included).
             </FormHelperText>
         </>
     )
