@@ -1,7 +1,7 @@
 ﻿import {useEffect, useState} from "react";
 
 
-export const useVacationDateLogic = (startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayCustomInput,setMaxEndDay, MAX_VACATION_DAYS) => {
+export const useVacationDateLogic = (startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayCustomInput,setMaxEndDay, setIsInvalidDate, MAX_VACATION_DAYS) => {
     const [isManualEndDate, setIsManualEndDate] = useState(false);
     
     const calculatedEndDate = (start, days) => {
@@ -13,6 +13,7 @@ export const useVacationDateLogic = (startDate, endDate, vacationDays, setVacati
             const daysDiff = endDate.diff(startDate, 'day');
             setVacationDays(daysDiff);
             setIsManualEndDate(true);
+            setIsInvalidDate(false);
             }
     }, [endDate, startDate, setVacationDays]);
     
