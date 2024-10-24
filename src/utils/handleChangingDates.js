@@ -63,9 +63,21 @@ export const handleVacationDaysChange = (
     startDate,
     setEndDate,
     setVacationDays,
+    maxValueCustomInput,
+    setIsInvalidDate,
+    showAlert
+    
 ) => {
+    
     if (!isNaN(days)) {
-        setEndDate(startDate.add(days, 'day'));
-        setVacationDays(days);
+        if(days > maxValueCustomInput || days < 1) {
+            setIsInvalidDate(true);
+            showAlert("Error: Invalid date selection", "error");
+        } else {
+            setEndDate(startDate.add(days, 'day'));
+            setVacationDays(days);
+            setIsInvalidDate(false);
+        }
+    
     }
 };
