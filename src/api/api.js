@@ -1,7 +1,11 @@
-﻿
+﻿export default function getRequests() {
+    const requests = JSON.parse(localStorage.getItem('vacationRequests')) || [];
+    return requests;
+}
+
 export default function postRequest(startDate, vacationDays, endDate, comment) {
     const requestId = Date.now();
-    
+
     const formData = {
         id: requestId,
         startDate: startDate.format("DD/MM/YYYY"),
@@ -9,7 +13,7 @@ export default function postRequest(startDate, vacationDays, endDate, comment) {
         endDate: endDate.format("DD/MM/YYYY"),
         comment: comment
     }
-    
+
     const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
     existingRequest.push(formData);
     localStorage.setItem('vacationRequests', JSON.stringify(existingRequest));
