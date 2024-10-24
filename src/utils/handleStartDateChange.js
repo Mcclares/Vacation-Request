@@ -3,6 +3,7 @@
 export const handleStartDateChange = (
     newDate,
     today,
+    vacationDays,
     endOfYear,
     setVacationDays,
     timeoutRef,
@@ -19,6 +20,7 @@ export const handleStartDateChange = (
         const tomorrow = today.add(1,'day');
         if (newStartDate && newStartDate.isAfter(today.subtract(1,'day'), 'day') && newStartDate.isBefore(endOfYear, 'day')) {
             setStartDate(newStartDate);
+            setEndDate(newStartDate.add(vacationDays , 'day'));
         } else {
             setStartDate(today);
             setVacationDays(1);
