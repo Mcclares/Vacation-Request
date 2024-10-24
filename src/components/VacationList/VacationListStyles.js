@@ -1,24 +1,24 @@
-﻿export const tableHeader = {
+﻿export const tableHeaderStyle = {
     fontSize: "16px",
     backgroundColor: '#d6d2c7', 
     fontWeight:'bold'
   
     
 }
-export const tableCell = {
+export const tableCellStyle = {
     whiteSpace: 'nowrap',
     overflow:'hidden',
     textOverflow: 'ellipsis',
     maxWidth: '10px',
     fontSize: '16px'
 }
-export const table = {
+export const tableStyle = {
     borderCollapse: 'separate', 
     tableLayout: 'fixed'
      
 }
 
-export const commentModalText = {
+export const commentModalTextStyle = {
     wordWrap: 'break-word', 
     maxWidth: '100%', 
     whiteSpace: 'normal',
