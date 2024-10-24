@@ -1,7 +1,7 @@
 ﻿import {Table, TableHead, TableCell, TableBody} from "@mui/material";
 import {TableRow} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {tableHeader} from "./VacationListStyles";
+import {tableHeader, styledTable} from "./VacationListStyles";
 import getRequests from "../../api/getRequests";
 export default function VacationList() {
     const[requests, setRequests] = useState([]);
@@ -12,7 +12,7 @@ export default function VacationList() {
     },[])
     
     return(
-        <Table>
+        <Table style={styledTable}>
             <TableHead >
                 <TableRow>
                     <TableCell style={tableHeader}>ID</TableCell>
