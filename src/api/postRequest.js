@@ -1,4 +1,4 @@
-﻿export default function postRequest(startDate, vacationDays, endDate, comment) {
+﻿export default async function postRequest(startDate, vacationDays, endDate, comment) {
     const requestId = Date.now();
 
     const formData = {
@@ -8,7 +8,19 @@
         endDate: endDate.format("DD/MM/YYYY"),
         comment: comment
     }
-
+    try {
+        const response = await fetch("https://localhost:8001/vacation_requests", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData) 
+        }); 
+    }catch {
+        
+    }
+    
     const existingRequest = JSON.parse(localStorage.getItem('vacationRequests')) || [];
     existingRequest.push(formData);
     localStorage.setItem('vacationRequests', JSON.stringify(existingRequest));
