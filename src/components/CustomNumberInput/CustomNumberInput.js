@@ -35,12 +35,12 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     );
 });
 
-export default function CustomNumberInput( { label, newValue= null, onChange, maxValue}) {
+export default function CustomNumberInput( { label, newValue= 1, onChange, maxValue}) {
     const inputId = "custom-number-input";
     const [value, setValue] = useState(newValue);
     
     useEffect(() => {
-        setValue(newValue);
+        setValue(newValue || 1);
     },[newValue])
     
     const handleChange = (event, val) => {
@@ -53,10 +53,7 @@ export default function CustomNumberInput( { label, newValue= null, onChange, ma
         if (event.key === 'Enter') {
             event.preventDefault();
             const currentValue = parseInt(event.target.value);
-            setValue(currentValue);
-            if (onChange) {
-                onChange(currentValue);
-            }
+            handleChange(event,currentValue) 
         }
     };
     return(
