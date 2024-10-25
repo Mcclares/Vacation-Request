@@ -143,7 +143,7 @@ export default function RequestForm() {
                         helperText="Please leave your comments or suggestions."
                         sx={FieldStyle}
                     />
-                    <CustomButton type="submit" name="Submit" onClick={handleSubmit} isError={isInvalidDate} variant="outlined" startIcon={<BeachAccessIcon/>} endIcon={<KiteSurfingIcon/>}/>
+                    <CustomButton type="submit" name="Submit" onClick={handleSubmit} isInvalidDate={isInvalidDate} variant="outlined" startIcon={<BeachAccessIcon/>} endIcon={<KiteSurfingIcon/>}/>
 
                 </FormControl>
             </form>
