@@ -19,7 +19,7 @@ describe('CustomButton ', () => {
     });
     
     test('disables the button when isError is true', () => {
-        render(<CustomButton name="Click me" isError={true}/>);
+        render(<CustomButton name="Click me" isInvalidDate={true}/>);
         expect(screen.getByText("Click me")).toBeDisabled();
     })
     
