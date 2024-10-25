@@ -17,7 +17,8 @@
             },
             body: JSON.stringify(formData) 
         }); 
-    }catch {
+    }catch(error) {
+        console.log(error)
         
     }
     

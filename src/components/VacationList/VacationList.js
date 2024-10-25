@@ -8,15 +8,20 @@ import {fixedHeaderContent} from "../FixedHeaderContent/FixedHeaderContent";
 import {rowContent} from "../RowContent/RowContent";
 import {VirtuosoTableComponents} from "../VirtuosoTableComponents/VirtuosoTableComponents";
 
+async function fetchData(setRequest) {
+    const requests = await getRequests();
+    setRequest(requests);
+}
+
 export default function VacationList() {
     const[requests, setRequests] = useState([]);
     const[openModal, setOpenModal] = useState(false);
     const[selectedComment, setSelectedComment] = useState('');
     
     useEffect(() => {
-        const storedRequests = getRequests();
-        setRequests(storedRequests);
+        fetchData(setRequests).then(r => console.log(r));
     },[])
+    
     
     const handleCommentClick = (comment) => {
         setSelectedComment(comment);

@@ -14,9 +14,15 @@ import {useVacationDateLogic} from "../../hooks/useVacationDateLogic";
 import {useNavigation} from "../../hooks/useNavigation";
 import {handleEndDateChange, handleStartDateChange, handleVacationDaysChange} from "../../utils/handleChangingDates";
 import postRequest from "../../api/postRequest";
+import getRequests from "../../api/getRequest";
 
 
 const MAX_VACATION_DAYS = 27;
+
+
+async function postData(startDate,vacationDays,endDate,comment) {
+    postRequest(startDate,vacationDays,endDate,comment)
+}
 
 export default function RequestForm() {
     const today = dayjs();
@@ -43,7 +49,7 @@ export default function RequestForm() {
         event.preventDefault()
         if (!isInvalidDate) {
             
-            postRequest(startDate,vacationDays,endDate,comment);
+            postData(startDate, vacationDays, endDate, comment).then(r  => console.log(r));
             showAlert("Form submitted successfully", "success");
             goToPage("/");
 
