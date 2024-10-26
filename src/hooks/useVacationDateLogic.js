@@ -1,54 +1,29 @@
 ﻿import {useEffect, useState} from "react";
+import {isNumber} from "@mui/base/unstable_useNumberInput/utils";
+import dayjs from "dayjs";
 
 
-export const useVacationDateLogic = (startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayCustomInput,setMaxEndDay, setIsInvalidDate, MAX_VACATION_DAYS) => {
-    const [isManualEndDate, setIsManualEndDate] = useState(false);
-    
-    const calculatedEndDate = (start, days) => {
-        return start.add(days, 'day').isAfter(endOfYear, 'day') ? endOfYear : start.add(days, 'day');
-    }
-    
-    useEffect(() => {
-        if (endDate && endDate.isAfter(startDate, 'day') && endDate.isBefore(endOfYear)) {
-            const daysDiff = endDate.diff(startDate, 'day');
-            setVacationDays(daysDiff);
-            setIsManualEndDate(true);
-            setIsInvalidDate(false);
-            }
-    }, [endDate, startDate, setVacationDays]);
+function calculatedEndDate(startDate, vacationDays, setEndDate, endOfYear) {
+    const newEndDate = startDate.add(vacationDays - 1, 'day');
+    setEndDate(newEndDate.isAfter(endOfYear) ? endOfYear : newEndDate);
+}
+
+export const useVacationDateLogic = (startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayInCustomInput,setMaxEndDay, setIsInvalidDate, MAX_VACATION_DAYS, maxDayCustom) => {
+ 
     
     useEffect(() => {
-        if(!isManualEndDate && startDate && vacationDays) {
-            const daysUntilEndOfYear = endOfYear.subtract(1,'day').diff(startDate, 'day');
-            
-            if(daysUntilEndOfYear < MAX_VACATION_DAYS) {
-                if(vacationDays > daysUntilEndOfYear) {
-                    setVacationDays(daysUntilEndOfYear);
-                }
-                const inclusiveDaysUntilEndOfYear = daysUntilEndOfYear + 1;
-                setMaxDayCustomInput(inclusiveDaysUntilEndOfYear);
-               
-            } 
-            if(vacationDays > MAX_VACATION_DAYS) {
-                setVacationDays(MAX_VACATION_DAYS);
-                setMaxDayCustomInput(MAX_VACATION_DAYS);
-            }
-
-            const potentialMaxEndDate = startDate.add(MAX_VACATION_DAYS, 'day');
-            const calculatedMaxEndDay = potentialMaxEndDate.isAfter(endOfYear)
-                ? endOfYear
-                : potentialMaxEndDate;
-
-            setMaxEndDay(calculatedMaxEndDay);
-            
-            
-            const newEndDate = calculatedEndDate(startDate, vacationDays);
-            setEndDate(newEndDate);
-            
+        const daysUntilEndOfYear = endOfYear.diff(startDate, 'day') + 1;
+        setMaxDayInCustomInput(MAX_VACATION_DAYS);
+        if(daysUntilEndOfYear < MAX_VACATION_DAYS) {
+            setVacationDays(daysUntilEndOfYear);
+            setMaxDayInCustomInput(daysUntilEndOfYear);
         }
-    }, [startDate, vacationDays, isManualEndDate, endOfYear, setEndDate, setVacationDays]);
-    
-    useEffect(() => {
-        setIsManualEndDate(false);
+        calculatedEndDate(startDate, vacationDays, setEndDate, endOfYear);
     }, [startDate]);
+
+    useEffect(() => {
+        calculatedEndDate(startDate, vacationDays, setEndDate, endOfYear);
+    }, [vacationDays,setVacationDays]);
+
+    
 }

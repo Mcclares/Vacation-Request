@@ -35,7 +35,7 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     );
 });
 
-export default function CustomNumberInput( { label, newValue= 1, onChange, maxValue}) {
+export default function CustomNumberInput( { label, newValue= 1, onChange, maxValue, setIsInvalidDate, showAlert }) {
     const inputId = "custom-number-input";
     const [value, setValue] = useState(newValue);
     
@@ -44,16 +44,26 @@ export default function CustomNumberInput( { label, newValue= 1, onChange, maxVa
     },[newValue])
     
     const handleChange = (event, val) => {
-        setValue(val);
-        if (onChange) {
-            onChange(val);
+        if(val <= maxValue) {
+            setIsInvalidDate(false);
+            setValue(val);
+            if (onChange) {
+                onChange(val);
+            }
+           
+        }else {
+            showAlert("Error: Invalid vacation days", 'error');
+            setIsInvalidDate(true);
         }
-    };
+    }
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
+           
             event.preventDefault();
             const currentValue = parseInt(event.target.value);
-            handleChange(event,currentValue) 
+            handleChange(event,currentValue)
+
+           
         }
     };
     return(

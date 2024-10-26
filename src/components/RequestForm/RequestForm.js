@@ -17,7 +17,7 @@ import postRequest from "../../api/postRequest";
 import getRequests from "../../api/getRequest";
 
 
-const MAX_VACATION_DAYS = 27;
+const MAX_VACATION_DAYS = 28;
 
 
 async function postData(startDate,vacationDays,endDate,comment) {
@@ -42,7 +42,7 @@ export default function RequestForm() {
     const goToPage = useNavigation();
     
     useTimeOutClearEffect(timeoutRef);
-    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxValueCustomInput,setMaxEndDay,setIsInvalidDate, MAX_VACATION_DAYS);
+    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxValueCustomInput,setMaxEndDay,setIsInvalidDate, MAX_VACATION_DAYS,maxValueCustomInput);
 
     
     const handleSubmit = (event) => {
@@ -82,7 +82,7 @@ export default function RequestForm() {
                               
                             )
                         }}
-                        maxDate={endOfYear.subtract(1, 'day')}
+                        maxDate={endOfYear}
                         format={"DD/MM/YY"}
                         slotProps={{
                             textField: {
@@ -95,35 +95,41 @@ export default function RequestForm() {
                         sx={FieldStyle}
                         label="Vacation days"
                         newValue={vacationDays}
-                        onChange={(days) => {
-                            handleVacationDaysChange(
-                                days,
-                                startDate,
-                                setEndDate,
-                                setVacationDays,
-                                maxValueCustomInput,
-                                setIsInvalidDate,
-                                showAlert
-                            )
-                        }}
+                        // onChange={(days) => {
+                        //     handleVacationDaysChange(
+                        //         days,
+                        //         startDate,
+                        //         setEndDate,
+                        //         setVacationDays,
+                        //         maxValueCustomInput,
+                        //         setIsInvalidDate,
+                        //         showAlert
+                        //     )
+                        // }}
+                        onChange={setVacationDays}
                         maxValue={maxValueCustomInput}
+                        showAlert={showAlert}
+                        setIsInvalidDate={setIsInvalidDate}
+                        
                         required/>
 
                     <DatePicker
                         sx={FieldStyle}
                         label="End date"
-                        minDate={startDate.add(1, 'day')}
+                        minDate={startDate}
                         value={endDate}
-                        defaultValue={today.add(1, 'day')}
-                        maxDate={maxEndDay}
+                        defaultValue={today}
+                        maxDate={endOfYear}
                         onChange={(newDate)=> {
                             handleEndDateChange(
                                 newDate,
+                                vacationDays,
                                 startDate,
+                                setVacationDays,
                                 setEndDate,
                                 setIsInvalidDate,
                                 showAlert,
-                                MAX_VACATION_DAYS
+                                setStartDate
                             )
                         } }
                         format={"DD/MM/YY"}

@@ -2,27 +2,37 @@
 
 export const handleEndDateChange = (
     newDate,
+    vacationDays,
     startDate,
+    setVacationDays,
     setEndDate,
     setIsInvalidDate,
     showAlert,
-    MAX_VACATION_DAYS,
+    setStartDate
 ) => {
+    const endOfYear = dayjs().endOf('year');
     const newEndDate = newDate ? dayjs(newDate) : null;
-    const newMaxEndDay = startDate.add(MAX_VACATION_DAYS, 'day');
-
-
-    if(newEndDate && newEndDate.isAfter(newMaxEndDay, 'day')) {
+    const today = dayjs();
+    
+    if(newEndDate && newEndDate.isAfter(endOfYear, 'day')) {
         setIsInvalidDate(true);
         showAlert("Error: Invalid date selection", "error")
 
-    }else if( newEndDate && newEndDate.isBefore(startDate.add(1,'day'),'day')) {
+    }else if( newEndDate && newEndDate.isBefore(startDate,'day')) {
         setIsInvalidDate(true);
         showAlert("Error: Invalid date selection", "error")
 
     } else {
-        setEndDate(newEndDate);
-        setIsInvalidDate(false);
+        const daysUntilToday = newEndDate.diff(today, 'day')
+        if(daysUntilToday < vacationDays) {
+            setVacationDays(daysUntilToday + 1);
+            setStartDate(newEndDate.subtract(daysUntilToday, 'day'))
+        }else {
+            setStartDate(newEndDate.subtract(vacationDays - 1, 'day'))
+            setEndDate(newEndDate);
+            setIsInvalidDate(false);
+        }
+        
     }
 
 };
@@ -46,7 +56,10 @@ export const handleStartDateChange = (
 
     timeoutRef.current = setTimeout(() => {
         const tomorrow = today.add(1,'day');
-        if (newStartDate && newStartDate.isAfter(today.subtract(1,'day'), 'day') && newStartDate.isBefore(endOfYear, 'day')) {
+        if (newStartDate 
+            && newStartDate.isAfter(today.subtract(1,'day'), 'day') 
+            && newStartDate.isBefore(endOfYear.add(1,'day'), 'day')) 
+        {
             setStartDate(newStartDate);
             setEndDate(newStartDate.add(vacationDays , 'day'));
         } else {
