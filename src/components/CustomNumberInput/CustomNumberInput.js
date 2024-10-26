@@ -44,7 +44,6 @@ export default function CustomNumberInput( { label, newValue= 1, onChange, maxVa
             }
             setValue(newValue || 1);
         }else {
-            console.log("b")
             showAlert("Error: Invalid vacation days", 'error');
             if (typeof setIsInvalidDate === 'function') {
                 setIsInvalidDate(true);
