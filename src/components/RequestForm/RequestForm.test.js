@@ -1,12 +1,11 @@
 ﻿import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import RequestForm from './RequestForm';
 import '@testing-library/jest-dom';
 import dayjs from 'dayjs';
 import {AlertProvider} from "../../hooks/useAlert";
 import {MemoryRouter, Route, Routes} from "react-router-dom";
-import postRequest from "../../api/postRequest";
-import * as api from '../../api/postRequest';
+
 
 describe('RequestForm Component', () => {
 

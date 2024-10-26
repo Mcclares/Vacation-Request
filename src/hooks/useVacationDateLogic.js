@@ -5,7 +5,13 @@ function calculatedEndDate(startDate, vacationDays, setEndDate, endOfYear) {
     setEndDate(newEndDate.isAfter(endOfYear) ? endOfYear : newEndDate);
 }
 
-export const useVacationDateLogic = (startDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayInCustomInput, MAX_VACATION_DAYS) => {
+export const useVacationDateLogic = (startDate, 
+                                     vacationDays, 
+                                     setVacationDays, 
+                                     setEndDate, 
+                                     endOfYear, 
+                                     setMaxDayInCustomInput, 
+                                     MAX_VACATION_DAYS) => {
  
     
     useEffect(() => {
