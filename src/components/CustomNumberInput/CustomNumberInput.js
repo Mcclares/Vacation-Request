@@ -1,11 +1,9 @@
-﻿import {useState , useEffect} from "react";
-import React from "react";
-import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_NumberInput';
+﻿import React, {useEffect, useState} from "react";
+import {Unstable_NumberInput as BaseNumberInput} from '@mui/base/Unstable_NumberInput';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import {StyledButton,StyledInput,StyledInputRoot, LabelStyle} from "./CustomNumberInputStyle";
-import {Typography} from "@mui/material";
-import {FormHelperText} from "@mui/material";
+import {LabelStyle, StyledButton, StyledInput, StyledInputRoot} from "./CustomNumberInputStyle";
+import {FormHelperText, Typography} from "@mui/material";
 
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     return (
@@ -25,7 +23,7 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
                     },
                     decrementButton: {
                         children: <RemoveIcon fontSize="small" />,
-                        type: 'button'
+                        type: 'button',
                     },
                 }}
                 {...props}
@@ -41,34 +39,49 @@ export default function CustomNumberInput( { label, newValue= 1, onChange, maxVa
     
     useEffect(() => {
         if(newValue <= maxValue && newValue > 0) {
-
             if (typeof setIsInvalidDate === 'function') {
                 setIsInvalidDate(false);
             }
             setValue(newValue || 1);
         }else {
+            console.log("b")
             showAlert("Error: Invalid vacation days", 'error');
-            
             if (typeof setIsInvalidDate === 'function') {
-                setIsInvalidDate(false);
+                setIsInvalidDate(true);
             }
         }
      
     },[newValue])
     
     const handleChange = (event, val) => {
-        setValue(val);
+        if (val && !isNaN(val) && val > 0) { 
+            setValue(val);
             if (onChange) {
                 onChange(val);
             }
+        }
         
     }
     const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === '-' || event.key === 'e') { 
             event.preventDefault();
-            const currentValue = parseInt(event.target.value);
-            handleChange(event,currentValue)
-            
+            setValue(1);
+            showAlert("Error: Only positive numbers are allowed", 'error');
+        }else {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const currentValue = event.target.value.trim() === "" ? 1 : parseInt(event.target.value, 10);
+                handleChange(event, currentValue);
+                
+            }
+        }
+        
+    };
+    const handlePaste = (event) => {
+        const pastedData = event.clipboardData.getData('Text');
+        if (!/^[0-9]+$/.test(pastedData)) { 
+            event.preventDefault();
+            showAlert("Error: Only positive numbers are allowed", 'error');
         }
     };
     return(
@@ -84,7 +97,8 @@ export default function CustomNumberInput( { label, newValue= 1, onChange, maxVa
                 onChange={handleChange}
                 value={value || 1}
                 onKeyDown={handleKeyDown}
-                
+                onPaste={handlePaste}
+
             />
             <FormHelperText>
                 You can take 28 days of paid vacation(first day is included).
