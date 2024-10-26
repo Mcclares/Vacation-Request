@@ -30,8 +30,8 @@ Ensure you have the following installed on your machine:
   1. Clone the Repository:
   
 ```bash
-  git clone https://github.com/yourusername/project-name.git
-  cd project-name
+  git clone https://github.com/Mcclares/Vacation-Request.git
+  cd Vacation-Request
 ```
 
 ### Install Dependencies:
