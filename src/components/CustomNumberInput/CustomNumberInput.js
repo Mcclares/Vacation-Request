@@ -40,30 +40,30 @@ export default function CustomNumberInput( { label, newValue= 1, onChange, maxVa
     const [value, setValue] = useState(newValue);
     
     useEffect(() => {
-        setValue(newValue || 1);
-    },[newValue])
-    
-    const handleChange = (event, val) => {
-        if(val <= maxValue) {
+        if(newValue <= maxValue && newValue > 0) {
             setIsInvalidDate(false);
-            setValue(val);
-            if (onChange) {
-                onChange(val);
-            }
-           
+            setValue(newValue || 1);
         }else {
             showAlert("Error: Invalid vacation days", 'error');
             setIsInvalidDate(true);
+            
         }
+     
+    },[newValue])
+    
+    const handleChange = (event, val) => {
+        setValue(val);
+            if (onChange) {
+                onChange(val);
+            }
+        
     }
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-           
             event.preventDefault();
             const currentValue = parseInt(event.target.value);
             handleChange(event,currentValue)
-
-           
+            
         }
     };
     return(
