@@ -63,6 +63,7 @@ export const handleStartDateChange = (
     timeoutRef,
     setStartDate,
     setEndDate,
+    setIsInvalidDate
 ) => {
     const newStartDate = newDate ? dayjs(newDate) : null;
 
@@ -71,7 +72,6 @@ export const handleStartDateChange = (
     }
 
     timeoutRef.current = setTimeout(() => {
-        const tomorrow = today.add(1,'day');
         if (newStartDate 
             && newStartDate.isAfter(today.subtract(1,'day'), 'day') 
             && newStartDate.isBefore(endOfYear.add(1,'day'), 'day')) 
@@ -81,7 +81,8 @@ export const handleStartDateChange = (
         } else {
             setStartDate(today);
             setVacationDays(1);
-            setEndDate(tomorrow);
+            setEndDate(today);
+            setIsInvalidDate(false);
         }
 
     }, 500)

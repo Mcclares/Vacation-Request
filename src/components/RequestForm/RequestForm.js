@@ -16,7 +16,6 @@ import {handleEndDateChange, handleStartDateChange} from "../../utils/handleChan
 import postRequest from "../../api/postRequest";
 
 
-
 const MAX_VACATION_DAYS = 28;
 
 
@@ -85,9 +84,11 @@ export default function RequestForm() {
                                 timeoutRef,
                                 setStartDate,
                                 setEndDate,
+                                setIsInvalidDate
                               
                             )
                         }}
+                     
                         maxDate={endOfYear}
                         format={"DD/MM/YY"}
                         slotProps={{
