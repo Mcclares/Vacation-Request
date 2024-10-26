@@ -12,9 +12,9 @@ import {useAlert} from "../../hooks/useAlert";
 import {useTimeOutClearEffect} from "../../hooks/useTimeOutClearEffect";
 import {useVacationDateLogic} from "../../hooks/useVacationDateLogic";
 import {useNavigation} from "../../hooks/useNavigation";
-import {handleEndDateChange, handleStartDateChange, handleVacationDaysChange} from "../../utils/handleChangingDates";
+import {handleEndDateChange, handleStartDateChange} from "../../utils/handleChangingDates";
 import postRequest from "../../api/postRequest";
-import getRequests from "../../api/getRequest";
+
 
 
 const MAX_VACATION_DAYS = 28;
@@ -31,13 +31,11 @@ export default function RequestForm() {
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
     const [endDate,setEndDate] = useState(today.add(1, 'day'));
-    const [maxEndDay, setMaxEndDay] = useState(startDate.add(MAX_VACATION_DAYS, 'day'));
     const [comment, setComment] = useState('');
-    const [maxValueCustomInput,setMaxValueCustomInput] = useState(MAX_VACATION_DAYS);
+    const [maxValueInCustomInput,setMaxValueInCustomInput] = useState(MAX_VACATION_DAYS);
     const [isInvalidDate, setIsInvalidDate] = useState(false);
     
     const timeoutRef = useRef(null);
-
     const showAlert = useAlert();
     const goToPage = useNavigation();
     
@@ -48,7 +46,7 @@ export default function RequestForm() {
         setVacationDays, 
         setEndDate, 
         endOfYear, 
-        setMaxValueCustomInput,
+        setMaxValueInCustomInput,
         MAX_VACATION_DAYS,
         );
 
@@ -104,7 +102,7 @@ export default function RequestForm() {
                         label="Vacation days"
                         newValue={vacationDays}
                         onChange={setVacationDays}
-                        maxValue={maxValueCustomInput}
+                        maxValue={maxValueInCustomInput}
                         showAlert={showAlert}
                         setIsInvalidDate={setIsInvalidDate}
                         
@@ -122,12 +120,13 @@ export default function RequestForm() {
                                 newDate,
                                 vacationDays,
                                 startDate,
+                                maxValueInCustomInput,
+                                setStartDate,
                                 setVacationDays,
                                 setEndDate,
                                 setIsInvalidDate,
                                 showAlert,
-                                setStartDate,
-                                maxValueCustomInput
+                                MAX_VACATION_DAYS
                             )
                         } }
                         format={"DD/MM/YY"}

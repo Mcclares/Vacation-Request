@@ -5,12 +5,12 @@ export const handleEndDateChange = (
     newDate,
     vacationDays,
     startDate,
+    maxValueInCustomInput,
+    setStartDate,
     setVacationDays,
     setEndDate,
     setIsInvalidDate,
     showAlert,
-    setStartDate,
-    maxValueInCustomInput,
     MAX_VACATION_DAYS,
 ) => {
 
