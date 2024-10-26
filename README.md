@@ -57,7 +57,7 @@ This creates an optimized production build in the build directory.
 ### Screenshots
 ![Main picture](screenshots/second.png)
 ## Main Dashboard
-![Main picture](https://github.com/Mcclares/Vacation-Request/tree/main/screenshots/first.png)
+![Main picture](screenshots/first.png)
 #### Features
 - Table with requests (created with Mui library)
 - Request form (created with Mui library)
