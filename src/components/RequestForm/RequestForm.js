@@ -95,17 +95,6 @@ export default function RequestForm() {
                         sx={FieldStyle}
                         label="Vacation days"
                         newValue={vacationDays}
-                        // onChange={(days) => {
-                        //     handleVacationDaysChange(
-                        //         days,
-                        //         startDate,
-                        //         setEndDate,
-                        //         setVacationDays,
-                        //         maxValueCustomInput,
-                        //         setIsInvalidDate,
-                        //         showAlert
-                        //     )
-                        // }}
                         onChange={setVacationDays}
                         maxValue={maxValueCustomInput}
                         showAlert={showAlert}
@@ -129,7 +118,8 @@ export default function RequestForm() {
                                 setEndDate,
                                 setIsInvalidDate,
                                 showAlert,
-                                setStartDate
+                                setStartDate,
+                                maxValueCustomInput
                             )
                         } }
                         format={"DD/MM/YY"}

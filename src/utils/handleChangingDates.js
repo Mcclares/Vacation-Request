@@ -8,7 +8,8 @@ export const handleEndDateChange = (
     setEndDate,
     setIsInvalidDate,
     showAlert,
-    setStartDate
+    setStartDate,
+    maxValueInCustomInput
 ) => {
     const endOfYear = dayjs().endOf('year');
     const newEndDate = newDate ? dayjs(newDate) : null;
@@ -23,14 +24,25 @@ export const handleEndDateChange = (
         showAlert("Error: Invalid date selection", "error")
 
     } else {
-        const daysUntilToday = newEndDate.diff(today, 'day')
+        setIsInvalidDate(false);
+        const daysUntilToday = newEndDate.diff(today, 'day');
+        const maxDay = startDate.add(maxValueInCustomInput, 'day');
         if(daysUntilToday < vacationDays) {
             setVacationDays(daysUntilToday + 1);
             setStartDate(newEndDate.subtract(daysUntilToday, 'day'))
         }else {
-            setStartDate(newEndDate.subtract(vacationDays - 1, 'day'))
-            setEndDate(newEndDate);
-            setIsInvalidDate(false);
+            if(newEndDate.isAfter(maxDay.subtract(1, 'day'))) {
+                setStartDate(newEndDate.subtract(27, 'day'));
+                setVacationDays(28);
+        
+            }else {
+                const newVacationDays = newEndDate.diff(startDate.subtract(1, 'day'), 'day') ;
+                setVacationDays(newVacationDays);
+                setEndDate(newEndDate);
+              
+            }
+            
+
         }
         
     }
@@ -70,27 +82,3 @@ export const handleStartDateChange = (
 
     }, 500)
 }
-
-export const handleVacationDaysChange = (
-    days,
-    startDate,
-    setEndDate,
-    setVacationDays,
-    maxValueCustomInput,
-    setIsInvalidDate,
-    showAlert
-    
-) => {
-    
-    if (!isNaN(days)) {
-        if(days > maxValueCustomInput || days < 1) {
-            showAlert("Error: Invalid date selection", "error");
-            setIsInvalidDate(true);
-        } else {
-            setEndDate(startDate.add(days, 'day'));
-            setVacationDays(days);
-            setIsInvalidDate(false);
-        }
-    
-    }
-};
