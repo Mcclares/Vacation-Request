@@ -55,7 +55,7 @@ The application will open at http://localhost:3000 by default.
 This creates an optimized production build in the build directory.
 
 ### Screenshots
-Here are some screenshots of the app in action:
+![Описание изображения](https://github.com/Mcclares/Vacation-Request/screenshots/first.png)
 ## Main Dashboard
 
 #### Features
