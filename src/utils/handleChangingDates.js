@@ -1,5 +1,6 @@
 ﻿import dayjs from "dayjs";
 
+
 export const handleEndDateChange = (
     newDate,
     vacationDays,
@@ -9,40 +10,43 @@ export const handleEndDateChange = (
     setIsInvalidDate,
     showAlert,
     setStartDate,
-    maxValueInCustomInput
+    maxValueInCustomInput,
+    MAX_VACATION_DAYS,
 ) => {
+
+    const DAYS_BEFORE_MAX_VACATION = MAX_VACATION_DAYS - 1;
+    
     const endOfYear = dayjs().endOf('year');
     const newEndDate = newDate ? dayjs(newDate) : null;
     const today = dayjs();
     
-    if(newEndDate && newEndDate.isAfter(endOfYear, 'day')) {
+    if(newEndDate && (newEndDate.isAfter(endOfYear, 'day') || newEndDate.isBefore(startDate,'day'))) {
         setIsInvalidDate(true);
         showAlert("Error: Invalid date selection", "error")
-
-    }else if( newEndDate && newEndDate.isBefore(startDate,'day')) {
-        setIsInvalidDate(true);
-        showAlert("Error: Invalid date selection", "error")
-
-    } else {
+    }
+    else {
         setIsInvalidDate(false);
-        const daysUntilToday = newEndDate.diff(today, 'day');
-        const maxDay = startDate.add(maxValueInCustomInput, 'day');
-        if(daysUntilToday < vacationDays) {
-            setVacationDays(daysUntilToday + 1);
-            setStartDate(newEndDate.subtract(daysUntilToday, 'day'))
-        }else {
-            if(newEndDate.isAfter(maxDay.subtract(1, 'day'))) {
-                setStartDate(newEndDate.subtract(27, 'day'));
-                setVacationDays(28);
+        const daysUntilToday = newEndDate.diff(today, 'day') ;
+        const maxAllowedEndDate = startDate.add(maxValueInCustomInput, 'day');
+        const endDateLimit = maxAllowedEndDate.subtract(1, 'day');
         
+        if(daysUntilToday < vacationDays) {
+            const daysCountWithToday = daysUntilToday + 1;
+            setVacationDays(daysCountWithToday);
+            setStartDate(newEndDate.subtract(daysUntilToday, 'day'))
+            
+        }else {
+            if(newEndDate.isAfter(endDateLimit)) {
+                setStartDate(newEndDate.subtract(DAYS_BEFORE_MAX_VACATION, 'day'));
+                setVacationDays(MAX_VACATION_DAYS);
             }else {
-                const newVacationDays = newEndDate.diff(startDate.subtract(1, 'day'), 'day') ;
-                setVacationDays(newVacationDays);
+                const adjustedStartDate = startDate.subtract(1, 'day');
+                const totalVacationDaysIncludingStart = newEndDate.diff(adjustedStartDate, 'day') ;
+                setVacationDays(totalVacationDaysIncludingStart);
                 setEndDate(newEndDate);
               
             }
             
-
         }
         
     }
