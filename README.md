@@ -30,8 +30,8 @@ Ensure you have the following installed on your machine:
   1. Clone the Repository:
   
 ```bash
-  git clone https://github.com/yourusername/project-name.git
-  cd project-name
+  git clone https://github.com/Mcclares/Vacation-Request.git
+  cd Vacation-Request
 ```
 
 ### Install Dependencies:
@@ -55,9 +55,9 @@ The application will open at http://localhost:3000 by default.
 This creates an optimized production build in the build directory.
 
 ### Screenshots
-Here are some screenshots of the app in action:
+![Main picture](screenshots/second.png)
 ## Main Dashboard
-
+![Main picture](screenshots/first.png)
 #### Features
 - Table with requests (created with Mui library)
 - Request form (created with Mui library)
