@@ -41,11 +41,17 @@ export default function CustomNumberInput( { label, newValue= 1, onChange, maxVa
     
     useEffect(() => {
         if(newValue <= maxValue && newValue > 0) {
-            setIsInvalidDate(false);
+
+            if (typeof setIsInvalidDate === 'function') {
+                setIsInvalidDate(false);
+            }
             setValue(newValue || 1);
         }else {
             showAlert("Error: Invalid vacation days", 'error');
-            setIsInvalidDate(true);
+            
+            if (typeof setIsInvalidDate === 'function') {
+                setIsInvalidDate(false);
+            }
         }
      
     },[newValue])
