@@ -42,7 +42,15 @@ export default function RequestForm() {
     const goToPage = useNavigation();
     
     useTimeOutClearEffect(timeoutRef);
-    useVacationDateLogic(startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxValueCustomInput,setMaxEndDay,setIsInvalidDate, MAX_VACATION_DAYS,maxValueCustomInput);
+    useVacationDateLogic(
+        startDate,
+        vacationDays, 
+        setVacationDays, 
+        setEndDate, 
+        endOfYear, 
+        setMaxValueCustomInput,
+        MAX_VACATION_DAYS,
+        );
 
     
     const handleSubmit = (event) => {

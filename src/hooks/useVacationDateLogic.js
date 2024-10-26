@@ -1,14 +1,11 @@
-﻿import {useEffect, useState} from "react";
-import {isNumber} from "@mui/base/unstable_useNumberInput/utils";
-import dayjs from "dayjs";
-
+﻿import {useEffect} from "react";
 
 function calculatedEndDate(startDate, vacationDays, setEndDate, endOfYear) {
     const newEndDate = startDate.add(vacationDays - 1, 'day');
     setEndDate(newEndDate.isAfter(endOfYear) ? endOfYear : newEndDate);
 }
 
-export const useVacationDateLogic = (startDate, endDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayInCustomInput,setMaxEndDay, setIsInvalidDate, MAX_VACATION_DAYS, maxDayCustom) => {
+export const useVacationDateLogic = (startDate, vacationDays, setVacationDays, setEndDate, endOfYear, setMaxDayInCustomInput, MAX_VACATION_DAYS) => {
  
     
     useEffect(() => {
