@@ -63,7 +63,8 @@ export const handleStartDateChange = (
     timeoutRef,
     setStartDate,
     setEndDate,
-    setIsInvalidDate
+    setIsInvalidDate,
+    showAlert
 ) => {
     const newStartDate = newDate ? dayjs(newDate) : null;
 
@@ -83,6 +84,8 @@ export const handleStartDateChange = (
             setVacationDays(1);
             setEndDate(today);
             setIsInvalidDate(false);
+            showAlert("Error: Invalid date selection", "error")
+            
         }
 
     }, 500)
