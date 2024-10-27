@@ -2,6 +2,8 @@
 
 
 export const handleEndDateChange = (
+    today,
+    endOfYear,
     newDate,
     vacationDays,
     startDate,
@@ -15,10 +17,8 @@ export const handleEndDateChange = (
 ) => {
 
     const DAYS_BEFORE_MAX_VACATION = MAX_VACATION_DAYS - 1;
-    
-    const endOfYear = dayjs().endOf('year');
     const newEndDate = newDate ? dayjs(newDate) : null;
-    const today = dayjs();
+    
     
     if(newEndDate && (newEndDate.isAfter(endOfYear, 'day') || newEndDate.isBefore(startDate,'day'))) {
         setIsInvalidDate(true);
@@ -55,12 +55,12 @@ export const handleEndDateChange = (
 
 
 export const handleStartDateChange = (
-    newDate,
     today,
-    vacationDays,
     endOfYear,
-    setVacationDays,
     timeoutRef,
+    newDate,
+    vacationDays,
+    setVacationDays,
     setStartDate,
     setEndDate,
     setIsInvalidDate,

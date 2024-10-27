@@ -25,8 +25,8 @@ async function postData(startDate,vacationDays,endDate,comment) {
 
 export default function RequestForm() {
     const today = dayjs();
-    
     const endOfYear = today.endOf('year');
+    
     const [startDate, setStartDate] = useState(today);
     const [vacationDays, setVacationDays] = useState(1);
     const [endDate,setEndDate] = useState(today.add(1, 'day'));
@@ -76,12 +76,12 @@ export default function RequestForm() {
                         value={startDate}
                         onChange={(newDate) => {
                             handleStartDateChange(
-                                newDate,
                                 today,
-                                vacationDays,
                                 endOfYear,
-                                setVacationDays,
                                 timeoutRef,
+                                newDate,
+                                vacationDays,
+                                setVacationDays,
                                 setStartDate,
                                 setEndDate,
                                 setIsInvalidDate,
@@ -119,6 +119,8 @@ export default function RequestForm() {
                         maxDate={endOfYear}
                         onChange={(newDate)=> {
                             handleEndDateChange(
+                                today,
+                                endOfYear,
                                 newDate,
                                 vacationDays,
                                 startDate,
